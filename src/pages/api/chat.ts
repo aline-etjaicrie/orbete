@@ -320,8 +320,9 @@ function getSuggestedResources(
 
 // Generic tokens that match too broadly and should not count toward score
 const GENERIC_TOKENS = new Set([
-  'elu', 'elue', 'elus', 'elues', 'projet', 'commune', 'local', 'activité',
-  'votre', 'vous', 'votre', 'pour', 'dans', 'avec', 'sur', 'une', 'les', 'des'
+  'activite', 'projet', 'mon', 'ma', 'mes', 'ton', 'ta', 'tes',
+  'votre', 'vous', 'pour', 'dans', 'avec', 'sur', 'une', 'les', 'des',
+  'est', 'sont', 'pas', 'plus', 'bien', 'tout', 'faire', 'avoir'
 ]);
 
 // Token overlap score only — a resource scoring 0 here is excluded entirely

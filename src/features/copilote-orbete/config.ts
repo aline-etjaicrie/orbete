@@ -67,7 +67,7 @@ export const WELCOME_PARAGRAPHS = [
 ];
 
 export const PROFILE_REQUIRED_HTML =
-  ‘Pour utiliser <strong>Mon profil</strong>, commence par <a href="/diagnostic">faire le diagnostic</a>. Il prend 5 minutes et permet à Orbete de s’adapter à ta situation réelle.’;
+  `Pour utiliser <strong>Mon profil</strong>, commence par <a href="/diagnostic">faire le diagnostic</a>. Il prend 5 minutes et permet à Orbete de s’adapter à ta situation réelle.`;
 
 const SYSTEM_PROMPT_BASE = `Tu es le copilote Orbete, assistant intelligent du programme d’accompagnement Be-Cosmo.
 

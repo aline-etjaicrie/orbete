@@ -1,37 +1,39 @@
+// ─────────────────────────────────────────────
+//  DIAGNOSTIC PROFILES — Be-Cosmo
+// ─────────────────────────────────────────────
 export type DiagnosticProfile =
-  | "projet_recent"
-  | "arbitrage"
-  | "isolement"
-  | "surcharge"
-  | "exposition"
-  | "tension_relationnelle"
-  | "besoin_methode"
-  | "prise_de_parole"
-  | "gouvernance";
+  | "projet_recent"       // vient de démarrer ou idée en cours
+  | "demarches_admin"     // frein = démarches administratives
+  | "visibilite_com"      // frein = visibilité / communication
+  | "recherche_clients"   // frein = trouver des clients
+  | "gestion_financiere"  // frein = gérer les finances
+  | "isolement_reseau"    // frein = isolement
+  | "croissance";         // bien installé, veut passer un cap
 
+// ─────────────────────────────────────────────
+//  TARGET ROLES — Be-Cosmo
+// ─────────────────────────────────────────────
 export type TargetRole =
-  | "maire"
-  | "adjoint"
-  | "conseiller_municipal"
-  | "majorite"
-  | "opposition"
-  | "maire_arrondissement"
-  | "adjoint_arrondissement"
-  | "conseiller_arrondissement"
-  | "conseiller_paris"
-  | "interco"
-  | "conseiller_communautaire"
-  | "vice_president_interco"
-  | "president_epci"
-  | "elu_metropolitain"
-  | "maire_de_secteur";
+  | "artisan"
+  | "artiste"
+  | "entrepreneur_service"
+  | "entrepreneur_commerce"
+  | "porteur_projet"
+  | "association"
+  | "liberal";
 
+// ─────────────────────────────────────────────
+//  INSTITUTION CONTEXTS — Lieux Be-Cosmo
+// ─────────────────────────────────────────────
 export type InstitutionContext =
-  | "commune"
-  | "paris"
-  | "plm"
-  | "intercommunalite";
+  | "hermite"    // Charles Hermite, Paris 18e
+  | "cargo"      // Le Cargo, Paris 19e
+  | "montreuil"  // Porte de Montreuil, Paris 20e
+  | "externe";   // pas encore dans un lieu Be-Cosmo
 
+// ─────────────────────────────────────────────
+//  ORBETE RESOURCE
+// ─────────────────────────────────────────────
 export type OrbeteResource = {
   id: string;
   title: string;
@@ -45,6 +47,7 @@ export type OrbeteResource = {
   actions: string[];
   reflex: string;
   sensitiveNote?: string;
+  usefulLinks?: Array<{ label: string; url: string }>;
   targetRoles: Array<TargetRole>;
   institutionContexts?: Array<InstitutionContext>;
   experienceLevels: Array<"debutant" | "intermediaire" | "confirme">;
@@ -56,6 +59,9 @@ export type OrbeteResource = {
   priority: "haute" | "moyenne";
 };
 
+// ─────────────────────────────────────────────
+//  ORBETE PATH
+// ─────────────────────────────────────────────
 export type MaryanPath = {
   id: string;
   title: string;
@@ -71,6 +77,9 @@ export type MaryanPath = {
   irlPotential: boolean;
 };
 
+// ─────────────────────────────────────────────
+//  ORBETE SITUATION
+// ─────────────────────────────────────────────
 export type MaryanSituation = {
   id: string;
   title: string;

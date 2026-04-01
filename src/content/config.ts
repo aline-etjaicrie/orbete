@@ -5,7 +5,7 @@ const ressources = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
-    category: z.enum(['tension', 'parole', 'recul', 'accompagnement', 'juridique']),
+    category: z.enum(['juridique', 'finance', 'administratif', 'communication', 'reseau']),
     kicker: z.string(),
     publishDate: z.date().optional(),
     isPremium: z.boolean().default(false),
