@@ -10,44 +10,48 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <!-- ═══ INTRO ═══ -->
     <div id="view-intro" class="diag-view active">
-      <div class="container-narrow text-center">
-        <p class="kicker">Diagnostic Orbete</p>
-        <h1 class="intro-title">Fais le point sur ton activité<br />en 6 questions.</h1>
-        <p class="intro-lead">Orbete identifie tes besoins prioritaires et te propose les ressources les plus utiles pour là où tu en es.</p>
+      <div class="intro-bg" aria-hidden="true"></div>
+      <div class="container-narrow">
+        <div class="intro-shell">
+          <span class="intro-badge">Diagnostic Orbete</span>
+          <h1 class="intro-title">Fais le point<br/>sur ton activité.</h1>
+          <p class="intro-lead">6 questions pour identifier ce qui t'aiderait le plus maintenant.</p>
 
-        <div class="intro-benefits">
-          <div class="benefit">
-            <span class="benefit-icon">→</span>
-            <span>Une lecture claire de ta situation</span>
-          </div>
-          <div class="benefit">
-            <span class="benefit-icon">→</span>
-            <span>Ton point de vigilance principal</span>
-          </div>
-          <div class="benefit">
-            <span class="benefit-icon">→</span>
-            <span>Les piliers Orbete les plus utiles pour toi</span>
-          </div>
+          <ul class="intro-steps">
+            <li>
+              <span class="step-num">1</span>
+              <span class="step-text">Une lecture claire de ta situation</span>
+            </li>
+            <li>
+              <span class="step-num">2</span>
+              <span class="step-text">Ton point de vigilance principal</span>
+            </li>
+            <li>
+              <span class="step-num">3</span>
+              <span class="step-text">Les ressources Orbete les plus utiles pour toi</span>
+            </li>
+          </ul>
+
+          <button class="btn-cta" id="startBtn">
+            Commencer le diagnostic
+            <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </button>
+          <p class="intro-meta">3 minutes · Gratuit · Résultats enregistrés localement</p>
         </div>
-
-        <button class="btn-primary big" id="startBtn">Commencer le diagnostic</button>
-        <p class="intro-hint">3 minutes · Gratuit · Confidentiel</p>
       </div>
     </div>
 
     <!-- ═══ QUESTIONS ═══ -->
     <div id="view-questions" class="diag-view">
 
-      <nav class="diag-nav" id="diagNav">
+      <nav class="q-nav" id="diagNav">
         <div class="container-narrow">
-          <div class="nav-inner">
-            <button class="btn-back" id="prevBtn">← Retour</button>
-            <div class="progress-zone">
-              <span class="progress-label" id="progressLabel">Question 1 sur 6</span>
-              <div class="progress-track">
-                <div class="progress-fill" id="progressFill" style="width: 16.66%"></div>
-              </div>
-            </div>
+          <div class="q-nav-inner">
+            <button class="btn-back" id="prevBtn" aria-label="Question précédente">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+              <span>Retour</span>
+            </button>
+            <div class="steps-track" id="stepsTrack" aria-hidden="true"></div>
           </div>
         </div>
       </nav>
@@ -61,436 +65,612 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <!-- ═══ CALCUL ═══ -->
     <div id="view-calc" class="diag-view">
-      <div class="container-narrow text-center calc-zone">
-        <div class="loader"></div>
-        <h2 class="calc-title">Analyse en cours…</h2>
-        <p class="calc-sub">Orbete relie tes réponses pour faire ressortir ce qui t'aiderait le plus maintenant.</p>
+      <div class="container-narrow">
+        <div class="calc-shell">
+          <div class="calc-ring">
+            <div class="calc-spinner"></div>
+          </div>
+          <h2 class="calc-title">Analyse en cours…</h2>
+          <p class="calc-sub">Orbete relie tes réponses pour faire ressortir ce qui t'aiderait le plus maintenant.</p>
+        </div>
       </div>
     </div>
 
     <!-- ═══ RÉSULTAT ═══ -->
     <div id="view-result" class="diag-view">
-      <div class="container-narrow result-zone">
+      <div class="container-narrow">
+        <div class="result-shell">
 
-        <header class="res-header">
-          <p class="kicker">Ton diagnostic Orbete</p>
-          <h2 class="res-headline" id="resHeadline">—</h2>
-        </header>
+          <header class="res-head">
+            <span class="res-badge">Ton diagnostic</span>
+            <h2 class="res-headline" id="resHeadline">—</h2>
+          </header>
 
-        <!-- BLOC 1 : SITUATION -->
-        <section class="res-block">
-          <p class="res-block-label">1. Ta situation aujourd'hui</p>
-          <p class="res-text" id="resSituation"></p>
-        </section>
+          <div class="res-cards">
 
-        <!-- BLOC 2 : VIGILANCE -->
-        <section class="res-block">
-          <p class="res-block-label">2. Ton point de vigilance principal</p>
-          <div class="vigilance-card" id="resVigilance"></div>
-        </section>
+            <!-- SITUATION -->
+            <div class="res-card">
+              <p class="res-card-label">Ta situation aujourd'hui</p>
+              <p class="res-card-text" id="resSituation"></p>
+            </div>
 
-        <!-- BLOC 3 : CE QUI AIDE -->
-        <section class="res-block">
-          <p class="res-block-label">3. Ce qui t'aiderait le plus</p>
-          <ul class="res-list" id="resHelps"></ul>
-        </section>
+            <!-- VIGILANCE -->
+            <div class="res-card res-card--vigilance">
+              <p class="res-card-label">Point de vigilance</p>
+              <p class="res-card-text" id="resVigilance"></p>
+            </div>
 
-        <!-- BLOC 4 : PILIERS -->
-        <section class="res-pillars">
-          <p class="res-block-label" style="color: var(--gold);">4. Les ressources Orbete pour toi</p>
-          <p class="res-pillars-intro" id="resPillarsIntro"></p>
-          <div class="pillars-grid" id="resPillarsGrid"></div>
-        </section>
+            <!-- AIDE -->
+            <div class="res-card">
+              <p class="res-card-label">Ce qui t'aiderait le plus</p>
+              <ul class="res-helps" id="resHelps"></ul>
+            </div>
 
-        <!-- ACTIONS -->
-        <div class="res-actions">
-          <a href="/ressources" class="btn-primary big" id="resCtaResources">Explorer mes ressources →</a>
-          <a href="/mon-compte" class="btn-secondary">Aller à mon tableau de bord</a>
-          <a href="/copilote" class="btn-link">Poser une question au copilote</a>
+          </div>
+
+          <!-- PILIERS -->
+          <div class="res-pillars-block">
+            <p class="res-pillars-label">Les ressources Orbete pour toi</p>
+            <p class="res-pillars-intro" id="resPillarsIntro"></p>
+            <div class="pillars-grid" id="resPillarsGrid"></div>
+          </div>
+
+          <!-- ACTIONS -->
+          <div class="res-actions">
+            <a href="/ressources" class="btn-cta" id="resCtaResources">
+              Explorer mes ressources
+              <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/copilote" class="btn-outline">Poser une question au copilote →</a>
+            <a href="/mon-compte" class="btn-ghost">Mon tableau de bord</a>
+          </div>
+
+          <div class="res-footer-link">
+            <a href="/" class="btn-ghost dim">← Retour à l'accueil</a>
+          </div>
+
         </div>
-
-        <footer class="res-footer">
-          <a href="/" class="btn-link dim">← Retour à l'accueil</a>
-        </footer>
-
       </div>
     </div>
 
   </main>
 
   <style>
-    /* ── TOKENS ── */
+    /* ─── TOKENS ─── */
     :root {
-      --green: #1B4332;
-      --gold: #D4A853;
-      --bg: #F9F6F0;
-      --white: #FFFFFF;
-      --text: #1A1A1A;
-      --muted: rgba(26,26,26,0.5);
-      --border: rgba(27,67,50,0.12);
-      --radius: 16px;
-      --radius-lg: 24px;
+      --deep:   #1B4332;
+      --gold:   #D4A853;
+      --bg:     #F9F6F0;
+      --ink:    #1A1A1A;
+      --muted:  rgba(26,26,26,0.52);
+      --border: rgba(27,67,50,0.11);
+      --r:      14px;
+      --r-lg:   22px;
+      --r-xl:   30px;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     .diag-root {
-      background: var(--bg);
       min-height: 100vh;
-      font-family: 'Inter', system-ui, sans-serif;
-      color: var(--text);
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
-    .container-narrow {
-      max-width: 640px;
-      margin: 0 auto;
-      padding: 0 1.5rem;
-      width: 100%;
-    }
-
-    .text-center { text-align: center; }
-
-    /* ── VIEWS ── */
     .diag-view { display: none; }
     .diag-view.active { display: block; }
 
-    /* ── INTRO ── */
-    #view-intro { padding: 8vh 0 6vh; }
+    .container-narrow {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 0 1.25rem;
+      width: 100%;
+    }
 
-    .kicker {
+    /* ─── INTRO ─── */
+    .intro-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% -10%, rgba(27,67,50,0.09), transparent),
+        radial-gradient(ellipse 55% 45% at 100% 80%, rgba(212,168,83,0.06), transparent);
+    }
+
+    #view-intro {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 5vh 0 6vh;
+    }
+
+    .intro-shell {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      padding: 3.5rem 0 2rem;
+    }
+
+    .intro-badge {
+      display: inline-block;
+      padding: 0.32rem 0.85rem;
+      background: rgba(27,67,50,0.08);
+      color: var(--deep);
       font-size: 0.72rem;
       font-weight: 800;
-      text-transform: uppercase;
       letter-spacing: 0.12em;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
     }
 
     .intro-title {
-      font-size: clamp(2rem, 6vw, 3rem);
-      font-weight: 800;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      color: var(--green);
+      font-size: clamp(2.4rem, 8vw, 3.6rem);
+      font-weight: 900;
+      line-height: 1.07;
+      letter-spacing: -0.03em;
+      color: var(--deep);
       margin-bottom: 1.25rem;
     }
 
     .intro-lead {
-      font-size: 1.15rem;
-      line-height: 1.6;
+      font-size: 1.1rem;
+      line-height: 1.65;
       color: var(--muted);
       margin-bottom: 3rem;
-      max-width: 500px;
-      margin-inline: auto;
+      max-width: 420px;
     }
 
-    .intro-benefits {
+    .intro-steps {
+      list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
+      gap: 1.1rem;
       margin-bottom: 3.5rem;
-      text-align: left;
-      max-width: 400px;
-      margin-inline: auto;
     }
 
-    .benefit {
+    .intro-steps li {
       display: flex;
       align-items: center;
-      gap: 0.9rem;
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--text);
+      gap: 1rem;
     }
 
-    .benefit-icon {
-      color: var(--gold);
-      font-weight: 900;
-      font-size: 1.1rem;
+    .step-num {
       flex-shrink: 0;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      background: var(--deep);
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .intro-hint {
+    .step-text {
+      font-size: 0.98rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding: 1.1rem 2.2rem;
+      background: var(--deep);
+      color: #fff;
+      border: none;
+      border-radius: var(--r-lg);
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+      box-shadow: 0 6px 22px rgba(27,67,50,0.22);
+    }
+
+    .btn-cta svg {
+      width: 1.15rem;
+      height: 1.15rem;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2.5;
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .btn-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(27,67,50,0.28);
+    }
+
+    .btn-cta:hover svg { transform: translateX(3px); }
+
+    .intro-meta {
       margin-top: 1.25rem;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--muted);
       font-weight: 500;
     }
 
-    /* ── NAV ── */
-    .diag-nav {
+    /* ─── NAV QUESTIONS ─── */
+    .q-nav {
       position: sticky;
       top: 0;
-      z-index: 20;
-      background: var(--white);
+      z-index: 30;
+      background: rgba(249,246,240,0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
-      padding: 1.25rem 0;
-      margin-bottom: 3.5rem;
+      padding: 1rem 0;
     }
 
-    .nav-inner {
+    .q-nav-inner {
       display: flex;
       align-items: center;
-      gap: 2rem;
+      gap: 1.5rem;
     }
 
     .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
       background: none;
       border: none;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
-      color: var(--green);
-      opacity: 0.4;
+      color: var(--deep);
       cursor: pointer;
-      padding: 0;
-      white-space: nowrap;
+      padding: 0.35rem 0;
+      opacity: 0.55;
       transition: opacity 0.15s;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
+
     .btn-back:hover { opacity: 1; }
 
-    .progress-zone {
+    .btn-back svg {
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+    }
+
+    .steps-track {
       flex: 1;
       display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 0.5rem;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.4rem;
     }
 
-    .progress-label {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: var(--muted);
+    .step-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 50%;
+      background: rgba(27,67,50,0.14);
+      transition: background 0.3s, transform 0.3s;
     }
 
-    .progress-track {
-      width: 120px;
-      height: 4px;
-      background: #E5E0D8;
-      border-radius: 99px;
-      overflow: hidden;
-    }
+    .step-dot.done  { background: rgba(27,67,50,0.4); }
+    .step-dot.current { background: var(--deep); transform: scale(1.35); }
 
-    .progress-fill {
-      height: 100%;
-      background: var(--gold);
-      border-radius: 99px;
-      transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    /* ── QUESTION SLOT ── */
+    /* ─── QUESTION SLOT ─── */
     .question-slot {
-      padding-bottom: 5rem;
+      padding: 3.5rem 0 6rem;
       transition: opacity 0.22s ease, transform 0.22s ease;
     }
 
     .question-slot.exit {
       opacity: 0;
-      transform: translateX(-24px);
+      transform: translateX(-20px);
     }
 
     .question-slot.enter {
       opacity: 0;
-      transform: translateX(28px);
+      transform: translateX(20px);
+    }
+
+    .q-counter {
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
     }
 
     .q-text {
-      font-size: clamp(1.5rem, 5vw, 2.2rem);
-      font-weight: 800;
-      line-height: 1.2;
-      color: var(--green);
-      margin-bottom: 2.5rem;
-      letter-spacing: -0.015em;
+      font-size: clamp(1.55rem, 5.5vw, 2.2rem);
+      font-weight: 900;
+      line-height: 1.18;
+      letter-spacing: -0.025em;
+      color: var(--deep);
+      margin-bottom: 2.75rem;
     }
 
     .options {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.7rem;
     }
 
     .opt {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
       width: 100%;
-      padding: 1.15rem 1.5rem;
-      background: var(--white);
-      border: 1.5px solid var(--border);
-      border-radius: var(--radius);
+      padding: 1.1rem 1.4rem;
+      background: #fff;
+      border: 1.5px solid rgba(27,67,50,0.1);
+      border-radius: var(--r);
       text-align: left;
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 600;
-      color: var(--text);
+      color: var(--ink);
       cursor: pointer;
-      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s, background 0.15s;
-      line-height: 1.35;
+      transition: border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s;
+      line-height: 1.4;
+      box-shadow: 0 1px 4px rgba(27,67,50,0.04);
+    }
+
+    .opt-check {
+      flex-shrink: 0;
+      width: 1.35rem;
+      height: 1.35rem;
+      border-radius: 50%;
+      border: 2px solid rgba(27,67,50,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, border-color 0.15s;
+    }
+
+    .opt-check svg {
+      width: 0.65rem;
+      height: 0.65rem;
+      stroke: #fff;
+      fill: none;
+      stroke-width: 3;
+      opacity: 0;
+      transition: opacity 0.15s;
     }
 
     .opt:hover {
-      border-color: var(--green);
-      transform: translateX(4px);
-      box-shadow: 0 3px 12px rgba(27,67,50,0.08);
+      border-color: var(--deep);
+      background: rgba(27,67,50,0.03);
+      transform: translateX(3px);
+      box-shadow: 0 4px 14px rgba(27,67,50,0.08);
+    }
+
+    .opt:hover .opt-check {
+      border-color: var(--deep);
     }
 
     .opt.selected {
-      border-color: var(--green);
+      border-color: var(--deep);
       border-width: 2px;
       background: rgba(27,67,50,0.04);
+      box-shadow: 0 4px 14px rgba(27,67,50,0.1);
     }
 
-    /* ── CALC ── */
-    #view-calc { padding: 15vh 0; }
+    .opt.selected .opt-check {
+      background: var(--deep);
+      border-color: var(--deep);
+    }
 
-    .calc-zone { display: flex; flex-direction: column; align-items: center; }
+    .opt.selected .opt-check svg {
+      opacity: 1;
+    }
 
-    .loader {
-      width: 40px;
-      height: 40px;
-      border: 3px solid #E5E0D8;
-      border-top-color: var(--gold);
+    /* ─── CALC ─── */
+    #view-calc {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+    }
+
+    .calc-shell {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 4rem 0;
+      gap: 0;
+    }
+
+    .calc-ring {
+      width: 4rem;
+      height: 4rem;
       border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      margin-bottom: 2rem;
+      border: 3px solid rgba(27,67,50,0.12);
+      border-top-color: var(--gold);
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 2.25rem;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
     .calc-title {
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       font-weight: 800;
-      color: var(--green);
-      margin-bottom: 1rem;
+      color: var(--deep);
+      letter-spacing: -0.02em;
+      margin-bottom: 0.9rem;
     }
 
     .calc-sub {
       font-size: 1rem;
       color: var(--muted);
-      max-width: 400px;
-      line-height: 1.6;
-      text-align: center;
+      max-width: 380px;
+      line-height: 1.65;
     }
 
-    /* ── RÉSULTAT ── */
-    #view-result { padding: 5vh 0 8vh; }
+    /* ─── RÉSULTAT ─── */
+    #view-result { padding: 4vh 0 10vh; }
 
-    .result-zone { display: flex; flex-direction: column; gap: 0; }
+    .result-shell {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
 
-    .res-header {
-      margin-bottom: 3.5rem;
-      padding-bottom: 2.5rem;
-      border-bottom: 1px solid var(--border);
+    .res-head {
+      padding: 2rem 0 2.5rem;
+    }
+
+    .res-badge {
+      display: inline-block;
+      padding: 0.28rem 0.8rem;
+      background: rgba(27,67,50,0.08);
+      color: var(--deep);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      margin-bottom: 1.1rem;
     }
 
     .res-headline {
-      font-size: clamp(1.6rem, 5vw, 2.4rem);
-      font-weight: 800;
-      line-height: 1.2;
-      color: var(--green);
-      letter-spacing: -0.02em;
-      margin-top: 0.75rem;
+      font-size: clamp(1.7rem, 5.5vw, 2.5rem);
+      font-weight: 900;
+      line-height: 1.15;
+      letter-spacing: -0.025em;
+      color: var(--deep);
     }
 
-    .res-block {
-      padding: 2.5rem 0;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .res-block-label {
-      font-size: 0.72rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: var(--gold);
+    /* ─── CARDS RÉSULTAT ─── */
+    .res-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
       margin-bottom: 1.25rem;
     }
 
-    .res-text {
-      font-size: 1.1rem;
+    .res-card {
+      background: #fff;
+      border: 1px solid rgba(27,67,50,0.08);
+      border-radius: var(--r-lg);
+      padding: 1.75rem 1.85rem;
+      box-shadow: 0 2px 12px rgba(27,67,50,0.05);
+    }
+
+    .res-card--vigilance {
+      border-left: 4px solid var(--gold);
+      background: rgba(212,168,83,0.04);
+    }
+
+    .res-card-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1rem;
+    }
+
+    .res-card--vigilance .res-card-label {
+      color: var(--deep);
+      opacity: 0.7;
+    }
+
+    .res-card-text {
+      font-size: 1.02rem;
       line-height: 1.7;
       color: #333;
     }
 
-    .vigilance-card {
-      background: var(--white);
-      border: 2px solid var(--green);
-      border-radius: var(--radius-lg);
-      padding: 2rem 2.25rem;
-      font-size: 1.15rem;
-      font-weight: 700;
-      line-height: 1.5;
-      color: var(--green);
-      box-shadow: 0 6px 24px rgba(27,67,50,0.07);
-    }
-
-    .res-list {
+    .res-helps {
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 0.9rem;
+      gap: 0.85rem;
       padding: 0;
     }
 
-    .res-list li {
-      padding-left: 1.75rem;
-      position: relative;
-      font-size: 1.05rem;
+    .res-helps li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      font-size: 1rem;
       font-weight: 600;
-      color: #3a3a3a;
+      color: var(--ink);
       line-height: 1.5;
     }
 
-    .res-list li::before {
-      content: "→";
-      position: absolute;
-      left: 0;
-      color: var(--gold);
-      font-weight: 900;
+    .res-helps li::before {
+      content: '';
+      flex-shrink: 0;
+      width: 1.1rem;
+      height: 1.1rem;
+      border-radius: 50%;
+      background: var(--deep);
+      margin-top: 0.18rem;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 12 12' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 6l3 3 5-5' stroke='white' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-size: 65%;
+      background-repeat: no-repeat;
+      background-position: center;
     }
 
-    /* ── PILIERS ── */
-    .res-pillars {
-      background: var(--green);
+    /* ─── PILIERS ─── */
+    .res-pillars-block {
+      background: var(--deep);
+      border-radius: var(--r-xl);
+      padding: 2.5rem 2rem;
+      margin: 1.25rem 0;
       color: #fff;
-      padding: 3rem 2.5rem;
-      border-radius: 28px;
-      margin: 3rem 0;
     }
 
-    .res-pillars .res-block-label {
+    .res-pillars-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: var(--gold);
+      margin-bottom: 1rem;
     }
 
     .res-pillars-intro {
-      font-size: 1rem;
-      line-height: 1.6;
-      opacity: 0.85;
-      margin-bottom: 2rem;
+      font-size: 0.97rem;
+      line-height: 1.65;
+      opacity: 0.75;
+      margin-bottom: 1.75rem;
     }
 
     .pillars-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
     .pillar-card {
-      background: rgba(255,255,255,0.08);
-      border: 1.5px solid rgba(255,255,255,0.15);
-      border-radius: var(--radius);
-      padding: 1.5rem 1.25rem;
-      transition: background 0.15s;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--r);
+      padding: 1.25rem 1.15rem;
+      transition: background 0.18s;
     }
 
     .pillar-card.active {
-      background: rgba(212,168,83,0.18);
-      border-color: var(--gold);
+      background: rgba(212,168,83,0.15);
+      border-color: rgba(212,168,83,0.45);
     }
 
     .pillar-card-name {
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 800;
       color: #fff;
       margin-bottom: 0.4rem;
+      letter-spacing: -0.01em;
     }
 
     .pillar-card.active .pillar-card-name {
@@ -498,95 +678,74 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
 
     .pillar-card-desc {
-      font-size: 0.85rem;
-      line-height: 1.4;
-      opacity: 0.7;
+      font-size: 0.8rem;
+      line-height: 1.45;
+      opacity: 0.6;
       color: #fff;
     }
 
-    /* ── ACTIONS ── */
+    /* ─── ACTIONS ─── */
     .res-actions {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      margin-top: 1rem;
-      align-items: flex-start;
+      gap: 0.85rem;
+      margin-top: 0.75rem;
     }
 
-    .res-footer {
-      margin-top: 3rem;
-      text-align: center;
-    }
-
-    /* ── BUTTONS ── */
-    .btn-primary {
-      display: inline-block;
-      background: var(--green);
-      color: #fff;
-      border: none;
-      padding: 1rem 2rem;
-      border-radius: 14px;
-      font-weight: 800;
-      font-size: 1rem;
-      cursor: pointer;
-      text-decoration: none;
-      transition: transform 0.15s, box-shadow 0.15s;
-      text-align: center;
-    }
-
-    .btn-primary.big {
-      padding: 1.25rem 3rem;
-      font-size: 1.1rem;
-      border-radius: 18px;
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(27,67,50,0.2);
-    }
-
-    .btn-secondary {
-      display: inline-block;
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 1.75rem;
       background: transparent;
-      color: var(--green);
+      color: var(--deep);
       border: 2px solid var(--border);
-      padding: 1rem 2rem;
-      border-radius: 14px;
+      border-radius: var(--r-lg);
+      font-size: 0.97rem;
       font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
       text-decoration: none;
-      transition: border-color 0.15s;
+      transition: border-color 0.15s, background 0.15s;
+      text-align: center;
     }
 
-    .btn-secondary:hover {
-      border-color: var(--green);
+    .btn-outline:hover {
+      border-color: var(--deep);
+      background: rgba(27,67,50,0.04);
     }
 
-    .btn-link {
-      display: inline-block;
-      color: var(--green);
-      text-decoration: none;
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      background: transparent;
+      color: var(--deep);
+      border: none;
+      font-size: 0.9rem;
       font-weight: 700;
-      font-size: 0.95rem;
-      opacity: 0.6;
-      padding: 0.5rem 0;
+      text-decoration: none;
+      opacity: 0.55;
       transition: opacity 0.15s;
     }
 
-    .btn-link:hover { opacity: 1; }
-    .btn-link.dim { opacity: 0.4; }
-    .btn-link.dim:hover { opacity: 0.8; }
+    .btn-ghost:hover { opacity: 1; }
+    .btn-ghost.dim   { opacity: 0.35; }
+    .btn-ghost.dim:hover { opacity: 0.7; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 580px) {
-      #view-intro { padding: 5vh 0 4vh; }
-      .intro-title { font-size: 2rem; }
+    .res-footer-link {
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 540px) {
+      .intro-title { font-size: 2.15rem; }
+      .btn-cta { width: 100%; justify-content: center; }
+      .q-text { font-size: 1.45rem; }
       .pillars-grid { grid-template-columns: 1fr; }
-      .res-pillars { padding: 2.5rem 1.75rem; border-radius: 20px; }
-      .btn-primary.big { width: 100%; }
-      .btn-secondary { width: 100%; text-align: center; }
-      .vigilance-card { padding: 1.5rem 1.5rem; font-size: 1.05rem; }
+      .res-pillars-block { padding: 2rem 1.5rem; border-radius: var(--r-lg); }
+      .res-card { padding: 1.4rem 1.4rem; }
+      .btn-outline { width: 100%; }
     }
   </style>
 
@@ -609,7 +768,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         key: 'statut',
         label: 'Ton statut juridique ?',
         options: [
-          { value: 'pas_encore', label: 'Pas encore' },
+          { value: 'pas_encore', label: 'Pas encore de statut' },
           { value: 'micro',      label: 'Micro-entrepreneur' },
           { value: 'societe',    label: 'Société (SASU, EURL, SAS…)' },
           { value: 'asso',       label: 'Association' },
@@ -622,7 +781,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         options: [
           { value: 'artisanat', label: 'Métier manuel / artisanat' },
           { value: 'art',       label: 'Création artistique' },
-          { value: 'service',   label: 'Service' },
+          { value: 'service',   label: 'Service aux particuliers ou aux pros' },
           { value: 'commerce',  label: 'Commerce' },
           { value: 'autre',     label: 'Autre' }
         ]
@@ -631,7 +790,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         key: 'frein',
         label: 'Ton plus grand frein en ce moment ?',
         options: [
-          { value: 'demarches', label: 'Les démarches admin' },
+          { value: 'demarches', label: 'Les démarches administratives' },
           { value: 'visibilite', label: 'Me faire connaître' },
           { value: 'clients',   label: 'Trouver des clients' },
           { value: 'finances',  label: 'Gérer les finances' },
@@ -652,32 +811,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         key: 'lieu',
         label: 'Tu es installé·e dans quel lieu Be-Cosmo ?',
         options: [
-          { value: 'hermite',   label: 'Charles Hermite — Paris 18e' },
-          { value: 'cargo',     label: 'Le Cargo — Paris 19e' },
-          { value: 'montreuil', label: 'Porte de Montreuil — Paris 20e' },
+          { value: 'hermite',    label: 'Charles Hermite — Paris 18e' },
+          { value: 'cargo',      label: 'Le Cargo — Paris 19e' },
+          { value: 'montreuil',  label: 'Porte de Montreuil — Paris 20e' },
           { value: 'pas_encore', label: 'Pas encore' },
-          { value: 'autre',     label: 'Autre' }
+          { value: 'autre',      label: 'Autre' }
         ]
       }
     ];
 
     var PILLARS = {
-      lancer: {
-        name: 'Lancer',
-        desc: 'Créer sa structure, statut juridique, aides à la création'
-      },
-      exister: {
-        name: 'Exister',
-        desc: 'Com, offre, visibilité, pitch'
-      },
-      gerer: {
-        name: 'Gérer',
-        desc: 'Admin, URSSAF, facturation, aides financières'
-      },
-      grandir: {
-        name: 'Grandir',
-        desc: 'Réseau, partenaires, développement'
-      }
+      lancer:  { name: 'Lancer',  desc: 'Créer sa structure, statut juridique, aides à la création' },
+      exister: { name: 'Exister', desc: 'Communication, offre, visibilité, pitch' },
+      gerer:   { name: 'Gérer',   desc: 'Admin, URSSAF, facturation, aides financières' },
+      grandir: { name: 'Grandir', desc: 'Réseau, partenaires, développement' }
     };
 
     /* ────────────────────────────────────────────
@@ -685,6 +832,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     ──────────────────────────────────────────── */
     var currentStep = 0;
     var answers = {};
+    var N = QUESTIONS.length;
 
     /* ────────────────────────────────────────────
        VIEWS
@@ -699,13 +847,28 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     }
 
     /* ────────────────────────────────────────────
+       STEP DOTS
+    ──────────────────────────────────────────── */
+    function renderDots(idx) {
+      var track = document.getElementById('stepsTrack');
+      if (!track) return;
+      track.innerHTML = '';
+      for (var i = 0; i < N; i++) {
+        var d = document.createElement('span');
+        d.className = 'step-dot' + (i < idx ? ' done' : i === idx ? ' current' : '');
+        track.appendChild(d);
+      }
+    }
+
+    /* ────────────────────────────────────────────
        QUESTION RENDERING
     ──────────────────────────────────────────── */
     function renderQuestion(idx, direction) {
       var slot = document.getElementById('questionSlot');
       var q = QUESTIONS[idx];
 
-      var html = '<h2 class="q-text">' + escHtml(q.label) + '</h2>'
+      var html = '<p class="q-counter">Question ' + (idx + 1) + ' sur ' + N + '</p>'
+               + '<h2 class="q-text">' + escHtml(q.label) + '</h2>'
                + '<div class="options" role="list">';
 
       q.options.forEach(function(opt) {
@@ -713,12 +876,14 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         html += '<button class="opt' + (isSelected ? ' selected' : '') + '" '
               + 'onclick="pickAnswer(\'' + esc(q.key) + '\',\'' + esc(opt.value) + '\')">'
               + escHtml(opt.label)
+              + '<span class="opt-check" aria-hidden="true">'
+              + '<svg viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M2 6l3 3 5-5" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/></svg>'
+              + '</span>'
               + '</button>';
       });
 
       html += '</div>';
 
-      // animate out → swap → animate in
       if (direction !== 0) {
         slot.classList.add('exit');
       }
@@ -727,39 +892,31 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         slot.innerHTML = html;
         slot.classList.remove('exit');
         slot.classList.add('enter');
-        // Force reflow
         void slot.offsetWidth;
         slot.classList.remove('enter');
-      }, direction !== 0 ? 220 : 0);
-    }
-
-    function updateProgress(idx) {
-      var label = document.getElementById('progressLabel');
-      var fill = document.getElementById('progressFill');
-      if (label) label.textContent = 'Question ' + (idx + 1) + ' sur 6';
-      if (fill) fill.style.width = ((idx + 1) / 6 * 100) + '%';
+      }, direction !== 0 ? 200 : 0);
     }
 
     /* ────────────────────────────────────────────
        NAVIGATION
     ──────────────────────────────────────────── */
     function pickAnswer(key, value) {
-      // visual feedback: mark selected immediately
       document.querySelectorAll('.opt').forEach(function(btn) {
         btn.classList.remove('selected');
       });
-      event.currentTarget.classList.add('selected');
+      if (event && event.currentTarget) {
+        event.currentTarget.classList.add('selected');
+      }
 
       answers[key] = value;
 
-      if (currentStep < QUESTIONS.length - 1) {
+      if (currentStep < N - 1) {
         currentStep++;
         setTimeout(function() {
-          updateProgress(currentStep);
+          renderDots(currentStep);
           renderQuestion(currentStep, 1);
-        }, 240);
+        }, 230);
       } else {
-        // last question answered → go to calc
         showView('view-calc');
         setTimeout(processDiagnosis, 1600);
       }
@@ -768,7 +925,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     function goPrev() {
       if (currentStep > 0) {
         currentStep--;
-        updateProgress(currentStep);
+        renderDots(currentStep);
         renderQuestion(currentStep, -1);
       } else {
         showView('view-intro');
@@ -781,26 +938,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     function computePillarScores(a) {
       var s = { lancer: 0, exister: 0, gerer: 0, grandir: 0 };
 
-      // avancement
       if (a.avancement === 'idee')          { s.lancer += 4; }
       if (a.avancement === 'lance_recent')  { s.lancer += 3; s.gerer += 1; }
       if (a.avancement === 'en_dev')        { s.exister += 1; s.gerer += 1; s.grandir += 1; }
       if (a.avancement === 'bien_installe') { s.grandir += 2; s.exister += 1; }
 
-      // statut
       if (a.statut === 'pas_encore') { s.lancer += 4; }
       if (a.statut === 'micro')      { s.lancer += 1; s.gerer += 2; }
       if (a.statut === 'societe')    { s.gerer += 2; }
       if (a.statut === 'asso')       { s.gerer += 1; s.grandir += 1; }
 
-      // frein
       if (a.frein === 'demarches')  { s.lancer += 3; s.gerer += 2; }
       if (a.frein === 'visibilite') { s.exister += 4; }
       if (a.frein === 'clients')    { s.exister += 2; s.grandir += 2; }
       if (a.frein === 'finances')   { s.gerer += 4; }
       if (a.frein === 'isolement')  { s.grandir += 4; }
 
-      // priorite
       if (a.priorite === 'structurer') { s.lancer += 2; }
       if (a.priorite === 'visibilite') { s.exister += 3; }
       if (a.priorite === 'gestion')    { s.gerer += 3; }
@@ -849,7 +1002,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     function buildHelps(a) {
       var helps = [];
-
       if (a.frein === 'demarches' || a.statut === 'pas_encore') {
         helps.push('Clarifier ton statut juridique selon ton secteur et ta situation');
       }
@@ -871,20 +1023,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       if (a.priorite === 'gestion') {
         helps.push('Mettre en place une gestion simple et lisible au quotidien');
       }
-
-      // Always max 3
       return helps.slice(0, 3);
     }
 
     function buildHeadline(a) {
       var map = {
-        demarches: "Clarifier pour avancer sans freins admin.",
-        visibilite: "Rendre ton activité visible et lisible.",
-        clients: "Trouver les bons clients, pas juste du monde.",
-        finances: "Maîtriser tes finances pour avancer sereinement.",
+        demarches: 'Clarifier pour avancer sans freins admin.',
+        visibilite: 'Rendre ton activité visible et lisible.',
+        clients: 'Trouver les bons clients, pas juste du monde.',
+        finances: 'Maîtriser tes finances pour avancer sereinement.',
         isolement: "Sortir de l'isolement et activer ton réseau."
       };
-      return map[a.frein] || "Structurer et développer ton activité.";
+      return map[a.frein] || 'Structurer et développer ton activité.';
     }
 
     /* ────────────────────────────────────────────
@@ -892,21 +1042,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     ──────────────────────────────────────────── */
     function processDiagnosis() {
       var a = answers;
-
-      var scores = computePillarScores(a);
-      var top = topPillars(scores, 2);
+      var scores   = computePillarScores(a);
+      var top      = topPillars(scores, 2);
       var situation = buildSituation(a);
       var vigilance = buildVigilance(a);
-      var helps = buildHelps(a);
-      var headline = buildHeadline(a);
+      var helps     = buildHelps(a);
+      var headline  = buildHeadline(a);
 
-      // Pillar intro text
       var pillarNames = top.map(function(k) { return PILLARS[k].name; });
       var pillarsIntro = 'Sur la base de tes réponses, les piliers '
         + pillarNames.join(' et ')
         + ' sont les plus utiles pour toi maintenant.';
 
-      // Inject
       document.getElementById('resHeadline').textContent = headline;
       document.getElementById('resSituation').textContent = situation;
       document.getElementById('resVigilance').textContent = vigilance;
@@ -918,7 +1065,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
       document.getElementById('resPillarsIntro').textContent = pillarsIntro;
 
-      // Pillar cards
       var grid = document.getElementById('resPillarsGrid');
       grid.innerHTML = ['lancer', 'exister', 'gerer', 'grandir'].map(function(k) {
         var p = PILLARS[k];
@@ -929,13 +1075,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           + '</div>';
       }).join('');
 
-      // CTA: link to first recommended pillar
       var resCtaEl = document.getElementById('resCtaResources');
       if (resCtaEl && top[0]) {
         resCtaEl.href = '/ressources?pilier=' + top[0];
       }
 
-      // Persist
       localStorage.setItem('orbete_v4_diag', JSON.stringify(a));
 
       var profile = {
@@ -967,10 +1111,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     function buildProfileTitle(a) {
       var map = {
-        idee: 'Porteur·se de projet',
+        idee:         'Porteur·se de projet',
         lance_recent: 'Entrepreneur·e en démarrage',
-        en_dev: 'Entrepreneur·e en développement',
-        bien_installe: 'Résident·e établi·e'
+        en_dev:       'Entrepreneur·e en développement',
+        bien_installe:'Résident·e établi·e'
       };
       return map[a.avancement] || 'Résident·e Be-Cosmo';
     }
@@ -979,8 +1123,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       var map = {
         demarches: 'Démarches & structure',
         visibilite: 'Visibilité & communication',
-        clients: 'Développement commercial',
-        finances: 'Gestion financière',
+        clients:   'Développement commercial',
+        finances:  'Gestion financière',
         isolement: 'Réseau & collectif'
       };
       return map[a.frein] || 'Développement activité';
@@ -1024,7 +1168,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
       currentStep = 0;
       answers = {};
       showView('view-questions');
-      updateProgress(0);
+      renderDots(0);
       renderQuestion(0, 0);
     });
 
