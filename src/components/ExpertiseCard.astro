@@ -1,0 +1,100 @@
+---
+import type { ExpertiseCardData } from '../data/expertises';
+
+interface Props {
+  expertise: ExpertiseCardData;
+}
+
+const { expertise } = Astro.props;
+---
+<article class="expertise-card-v3">
+  <h3>{expertise.title}</h3>
+
+  <div class="expertise-block-v3">
+    <span class="block-label-v3">Mission</span>
+    <p>{expertise.purpose}</p>
+  </div>
+
+  <div class="expertise-block-v3">
+    <span class="block-label-v3">Situation type</span>
+    <p>{expertise.when}</p>
+  </div>
+
+  <div class="expertise-footer-v3">
+    <span class="support-label-v3">Intervention probable</span>
+    <p>{expertise.support}</p>
+  </div>
+</article>
+
+<style>
+  .expertise-card-v3 {
+    background: white;
+    border: 1px solid rgba(30, 42, 50, 0.1);
+    border-radius: 24px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: all 0.3s ease;
+    height: 100%;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+  }
+
+  .expertise-card-v3:hover {
+    transform: translateY(-5px);
+    border-color: #D97757;
+    box-shadow: 0 15px 35px rgba(217, 119, 87, 0.05);
+  }
+
+  .expertise-card-v3 h3 {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: #1A1A1A;
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .expertise-block-v3 {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .block-label-v3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #8DA08E;
+    font-weight: 700;
+  }
+
+  .expertise-block-v3 p {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #54636C;
+    margin: 0;
+  }
+
+  .expertise-footer-v3 {
+    margin-top: auto;
+    padding-top: 1.5rem;
+    border-top: 1px dashed rgba(0,0,0,0.1);
+  }
+
+  .support-label-v3 {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #D97757;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .expertise-footer-v3 p {
+    font-size: 0.85rem;
+    font-style: italic;
+    color: #1A1A1A;
+    margin: 0;
+  }
+</style>

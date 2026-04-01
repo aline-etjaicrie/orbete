@@ -1,0 +1,385 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InternalHeader from '../components/InternalHeader.astro';
+import CompteRenduManager from '../components/CompteRenduManager.astro';
+import CompteRenduRecorder from '../components/CompteRenduRecorder.astro';
+
+// Pour l'instant, données mockées en attendant le backend Authentication
+const userProfile = {
+  name: "Aline Weber",
+  role: "Adjointe à la Culture",
+  municipality: "Commune de Test",
+  diagnosticResult: "Besoin de méthode (Copilote Plus)",
+  plan: "Découverte (Gratuit)",
+  messagesRemaining: 3
+};
+
+const modules = [
+  { 
+    title: "Mon Copilote", 
+    desc: "Échangez avec Orbete sur vos dossiers en cours.", 
+    link: "/copilote", 
+    status: "Actif",
+    icon: "💬" 
+  },
+  { 
+    title: "La Bibliothèque", 
+    desc: "Toutes vos fiches pratiques et trames opérationnelles.", 
+    link: "/ressources", 
+    status: "Illimité",
+    icon: "📚" 
+  },
+  {
+    title: "Le Hub Experts",
+    desc: "Contactez un expert juridique ou stratégique.",
+    link: "/hub-experts",
+    status: "Sur devis",
+    icon: "🤝"
+  },
+  {
+    title: "Mes Tests",
+    desc: "5 tests thématiques pour mieux vous connaître en tant qu'résident·e.",
+    link: "/tests",
+    status: "Nouveau",
+    icon: "🧭"
+  },
+  {
+    title: "Mes Comptes Rendus",
+    desc: "Créez et archivez vos CR de réunion par dictée ou manuellement.",
+    link: "#cr",
+    status: "Actif",
+    icon: "📋"
+  }
+];
+---
+
+<BaseLayout 
+  title="Mon Compte — Orbete" 
+  description="Gérez votre abonnement Orbete et accédez à vos outils de projet.">
+  
+  <InternalHeader 
+    label="Espace Personnel"
+    title="Bienvenue, <span class='emphasis'>Aline</span>"
+    subtitle="Retrouvez ici vos diagnostics, vos outils et votre accès privilégié au réseau d'experts."
+  />
+
+  <main class="dashboard-v3">
+    <div class="container">
+      
+      <!-- SUCCESS BANNER (Hidden by default) -->
+      <div id="successBanner" class="card-v3 highlight-neon" style="display:none; margin-bottom: 3rem; border-color: var(--neon); padding: 2rem;">
+         <h3 style="color:var(--deep);">Bienvenue dans Orbete Plus !</h3>
+         <p>Votre abonnement a été activé. Vous avez désormais un accès illimité au Copilote et à la Bibliothèque.</p>
+      </div>
+
+      <div class="dashboard-grid">
+        
+        <!-- SIDEBAR INFO -->
+        <aside class="dash-sidebar">
+          <div class="dash-profile card-v3">
+            <div class="profile-header">
+              <div class="avatar-circle" id="avatarInitials">AW</div>
+              <div class="profile-text">
+                <h3 id="profileName">{userProfile.name}</h3>
+                <p id="profileRole">{userProfile.role} — {userProfile.municipality}</p>
+              </div>
+            </div>
+            
+            <hr class="dash-sep" />
+
+            <div class="profile-stat">
+              <span class="label">Compte</span>
+              <p class="val" id="userEmail" style="font-size:0.85rem; font-weight:500; word-break:break-all;"></p>
+              <button id="logoutBtn" class="logout-btn">Se déconnecter →</button>
+            </div>
+
+            <hr class="dash-sep" />
+
+            <div class="profile-stat">
+              <span class="label">Votre forfait</span>
+              <p class="val" id="planVal">{userProfile.plan}</p>
+              <a href="/offres" id="upgradeBtn" class="upgrade-btn">Passer à Orbete Plus →</a>
+            </div>
+
+            <div class="profile-stat">
+              <span class="label">Crédit Copilote</span>
+              <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 60%;"></div>
+              </div>
+              <p class="val-sub" id="counterText">{userProfile.messagesRemaining} sur 5 messages restants</p>
+            </div>
+          </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="dash-content">
+          <section class="dash-section">
+            <h2 class="dash-h2">Vos outils prioritaires</h2>
+            <div class="modules-grid">
+              {modules.map(mod => (
+                <a href={mod.link} class="module-card card-v3">
+                  <div class="module-title-row">
+                    <h3>{mod.title}</h3>
+                    <span class="mod-status">{mod.status}</span>
+                  </div>
+                  <p>{mod.desc}</p>
+                  <span class="mod-nav">Ouvrir l'outil →</span>
+                </a>
+              ))}
+            </div>
+          </section>
+
+          <section class="dash-section" style="margin-top: 4rem;">
+            <h2 class="dash-h2">Dernier diagnostic</h2>
+            <div class="diag-summary card-v3 highlight-neon">
+              <div class="diag-header-row">
+                <div>
+                   <span class="label">Résultat préconisé</span>
+                   <p class="diag-val">{userProfile.diagnosticResult}</p>
+                </div>
+                <a href="/diagnostic" class="btn-link">Refaire le diagnostic</a>
+              </div>
+              <p class="diag-desc">Votre profil indique un besoin de structure et de méthode pour gagner du temps sur vos dossiers stratégiques.</p>
+            </div>
+          </section>
+
+          <section class="dash-section" style="margin-top: 4rem;">
+             <h2 class="dash-h2">Abonnement & Facturation</h2>
+             <div class="billing-card card-v3">
+                <p>Aucun paiement n’a été effectué pour le moment.</p>
+                <div class="billing-actions">
+                  <button class="btn-secondary-v3">Configurer Stripe Payout</button>
+                  <button class="btn-link">Afficher l’historique des factures</button>
+                </div>
+             </div>
+          </section>
+
+          <!-- TESTS SECTION -->
+          <section class="dash-section" id="tests" style="margin-top: 4rem;">
+            <div class="section-header-row">
+              <h2 class="dash-h2">Mes Tests thématiques</h2>
+              <a href="/tests" class="btn-link">Voir tous les tests →</a>
+            </div>
+            <div class="tests-grid">
+              <a href="/tests/style-decision" class="test-tile card-v3" data-key="orbete_test_decision">
+                <span class="test-num">01</span>
+                <h3>Mon style de décision</h3>
+                <p>Profil décisionnel, forces et angles morts.</p>
+                <span class="test-cta">Faire le test →</span>
+              </a>
+              <a href="/tests/posture-conflit" class="test-tile card-v3" data-key="orbete_test_conflit">
+                <span class="test-num">02</span>
+                <h3>Ma posture face au conflit</h3>
+                <p>Mode de gestion dominant et signaux d’alerte.</p>
+                <span class="test-cta">Faire le test →</span>
+              </a>
+              <a href="/tests/prise-de-parole" class="test-tile card-v3" data-key="orbete_test_parole">
+                <span class="test-num">03</span>
+                <h3>Préparer une prise de parole difficile</h3>
+                <p>Niveau de préparation réelle avant une prise de position.</p>
+                <span class="test-cta">Faire le test →</span>
+              </a>
+              <a href="/tests/travail-equipe" class="test-tile card-v3" data-key="orbete_test_equipe">
+                <span class="test-num">04</span>
+                <h3>Mon rapport au travail en équipe</h3>
+                <p>Profil d'équipe dominant et ce qu'il coûte aux autres.</p>
+                <span class="test-cta">Faire le test →</span>
+              </a>
+              <a href="/tests/deliberation" class="test-tile card-v3" data-key="orbete_test_deliberation">
+                <span class="test-num">05</span>
+                <h3>Préparer une délibération en collectif Be-Cosmo</h3>
+                <p>Niveau de préparation avant le vote en conseil.</p>
+                <span class="test-cta">Faire le test →</span>
+              </a>
+            </div>
+          </section>
+
+          <!-- COMPTES RENDUS SECTION -->
+          <section class="dash-section" id="cr" style="margin-top: 4rem;">
+            <div class="section-header-row">
+              <h2 class="dash-h2">Mes Comptes Rendus</h2>
+              <button id="openRecorderBtn" class="upgrade-btn" style="border-bottom-color: var(--accent-red);">🎤 Créer par dictée</button>
+            </div>
+
+            <!-- Recorder Modal -->
+            <div id="recorderModal" class="recorder-modal" style="display: none;">
+              <div class="recorder-modal-overlay" onclick="document.getElementById(‘recorderModal’).style.display=’none’;"></div>
+              <div class="recorder-modal-content card-v3">
+                <button class="recorder-close-btn" onclick="document.getElementById(‘recorderModal’).style.display=’none’;">✕</button>
+                <CompteRenduRecorder />
+              </div>
+            </div>
+
+            <CompteRenduManager readonly={false} />
+          </section>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+</BaseLayout>
+
+<script>
+  import { createClient } from '@supabase/supabase-js';
+
+  // AUTH GUARD
+  const SUPABASE_URL = import.meta.env.PUBLIC_SUPABASE_URL as string;
+  const SUPABASE_KEY = import.meta.env.PUBLIC_SUPABASE_ANON_KEY as string;
+
+  if (SUPABASE_URL && SUPABASE_KEY) {
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const { data: { session } } = await supabase.auth.getSession();
+
+    if (!session) {
+      window.location.href = '/login';
+    } else {
+      // Show email
+      const emailEl = document.getElementById('userEmail');
+      if (emailEl) emailEl.textContent = session.user.email || '';
+
+      // Avatar initials from email
+      const initials = (session.user.email || 'AU').slice(0, 2).toUpperCase();
+      const avatarEl = document.getElementById('avatarInitials');
+      if (avatarEl) avatarEl.textContent = initials;
+
+      // Logout
+      document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+        await supabase.auth.signOut();
+        window.location.href = '/login';
+      });
+    }
+  }
+
+  // ACTIVATION LOGIC
+  const urlParams = new URLSearchParams(window.location.search);
+  const sessionId = urlParams.get('session_id');
+  
+  if (sessionId) {
+    const banner = document.getElementById('successBanner');
+    if (banner) banner.style.display = 'block';
+    
+    // Simulate back-end activation by updating localStorage
+    const profile = JSON.parse(localStorage.getItem('orbete_profile') || '{}');
+    if (profile) {
+      profile.plan = "Orbete Plus";
+      profile.offerLevel = 2;
+      localStorage.setItem('orbete_profile', JSON.stringify(profile));
+      
+      // Update UI
+      const planVal = document.getElementById('planVal');
+      if (planVal) planVal.innerText = "Orbete Plus";
+      
+      const upgradeBtn = document.getElementById('upgradeBtn');
+      if (upgradeBtn) upgradeBtn.style.display = 'none';
+      
+      const progressFill = document.getElementById('progressFill') as HTMLElement;
+      if (progressFill) progressFill.style.width = '100%';
+      
+      const counterText = document.getElementById('counterText');
+      if (counterText) counterText.innerText = "Accès Illimité";
+    }
+  }
+
+  // Dynamic Profile Rendering (Simple)
+  const profile = JSON.parse(localStorage.getItem('orbete_profile') || '{}');
+  if (profile.title) {
+     document.getElementById('profileName')!.innerText = profile.firstName || "Aline";
+     document.getElementById('profileRole')!.innerText = `${profile.title} — ${profile.commune || 'Votre Commune'}`;
+     document.getElementById('planVal')!.innerText = profile.plan || "Découverte (Gratuit)";
+  }
+
+  // Tests: mark completed ones
+  document.querySelectorAll('.test-tile[data-key]').forEach(el => {
+    const key = el.getAttribute('data-key');
+    if (key && localStorage.getItem(key)) {
+      el.classList.add('test-done');
+      const cta = el.querySelector('.test-cta');
+      if (cta) cta.textContent = '✓ Refaire →';
+    }
+  });
+
+  // Recorder modal
+  const openRecorderBtn = document.getElementById('openRecorderBtn');
+  const recorderModal = document.getElementById('recorderModal');
+  openRecorderBtn?.addEventListener('click', () => {
+    if (recorderModal) recorderModal.style.display = 'flex';
+  });
+</script>
+
+<style>
+  .dashboard-v3 { padding-bottom: 8rem; background: var(--bg); min-height: 80vh; }
+  
+  .dashboard-grid { display: grid; grid-template-columns: 340px 1fr; gap: 4rem; align-items: start; }
+  
+  .dash-h2 { font-size: 1.5rem; margin-bottom: 2rem; color: var(--deep); }
+  
+  /* Sidebar */
+  .dash-sidebar { position: sticky; top: 2rem; }
+  .dash-profile { padding: 2.5rem; background: white; }
+  .profile-header { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 2rem; }
+  .avatar-circle { width: 56px; height: 56px; border-radius: 50%; background: var(--deep); color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; }
+  .profile-text h3 { font-size: 1.15rem; margin-bottom: 0.25rem; }
+  .profile-text p { font-size: 0.9rem; opacity: 0.6; }
+  
+  .dash-sep { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+  
+  .profile-stat { margin-bottom: 2rem; }
+  .profile-stat .label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #54636C; display: block; margin-bottom: 0.75rem; }
+  .profile-stat .val { font-size: 1.1rem; font-weight: 700; color: var(--deep); }
+  .profile-stat .val-sub { font-size: 0.85rem; opacity: 0.6; margin-top: 0.5rem; }
+  
+  .upgrade-btn { display: inline-block; margin-top: 1rem; color: var(--accent-red); font-weight: 800; font-size: 0.9rem; text-decoration: none; border-bottom: 2px solid var(--accent-red); }
+  .logout-btn { display: inline-block; margin-top: 0.75rem; background: none; border: none; padding: 0; color: #54636C; font-weight: 700; font-size: 0.85rem; font-family: inherit; cursor: pointer; border-bottom: 1px solid #ccc; }
+  .logout-btn:hover { color: var(--accent-red); border-bottom-color: var(--accent-red); }
+  
+  .progress-bar { width: 100%; height: 8px; background: var(--bg); border-radius: 99px; overflow: hidden; margin-top: 1rem; }
+  .progress-fill { height: 100%; background: var(--accent-red); border-radius: 99px; }
+
+  /* Modules Grid */
+  .modules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+  .module-card { text-decoration: none; padding: 2.5rem; transition: all 0.3s; }
+  .module-card:hover { transform: translateY(-5px); border-color: var(--accent-red); box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
+  .module-title-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .module-title-row h3 { font-size: 1.25rem; color: var(--deep); }
+  .mod-status { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; background: #E8F5E9; color: #2E7D32; padding: 0.3rem 0.6rem; border-radius: 4px; }
+  .module-card p { font-size: 0.95rem; color: #54636C; line-height: 1.5; margin-bottom: 1.5rem; }
+  .mod-nav { font-size: 0.85rem; font-weight: 800; color: var(--deep); }
+
+  /* Diagnostic Summary */
+  .diag-summary { padding: 3rem; }
+  .diag-header-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem; }
+  .diag-val { font-size: 1.5rem; font-weight: 800; color: var(--deep); }
+  .diag-desc { font-size: 1.05rem; opacity: 0.8; line-height: 1.6; }
+
+  /* Billing */
+  .billing-card { padding: 3rem; text-align: center; color: #54636C; opacity: 0.8; }
+  .billing-actions { display: flex; flex-direction: column; gap: 1rem; align-items: center; margin-top: 2rem; }
+
+  /* Section header row */
+  .section-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+  .section-header-row .dash-h2 { margin-bottom: 0; }
+
+  /* Tests grid */
+  .tests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+  .test-tile { text-decoration: none; padding: 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .test-num { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; color: #bbb; }
+  .test-tile h3 { font-size: 1.05rem; color: var(--deep); margin: 0; line-height: 1.3; }
+  .test-tile p { font-size: 0.9rem; color: #54636C; margin: 0; line-height: 1.5; flex: 1; }
+  .test-cta { font-size: 0.85rem; font-weight: 800; color: var(--deep); margin-top: auto; }
+  .test-done .test-cta { color: var(--neon); }
+  .test-done { border-color: var(--border-neon); }
+
+  /* Recorder modal */
+  .recorder-modal { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; }
+  .recorder-modal-overlay { position: absolute; inset: 0; background: rgba(10,25,47,0.5); cursor: pointer; }
+  .recorder-modal-content { position: relative; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; z-index: 1001; padding: 2rem; }
+  .recorder-close-btn { position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.4rem; cursor: pointer; color: #999; z-index: 10; }
+  .recorder-close-btn:hover { color: var(--deep); }
+
+  @media (max-width: 992px) {
+    .dashboard-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .dash-sidebar { position: static; }
+    .tests-grid { grid-template-columns: 1fr; }
+  }
+</style>

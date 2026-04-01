@@ -1,0 +1,975 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { FREE_LIMIT, PROFILE_REQUIRED_HTML, SUGGESTIONS, WELCOME_PARAGRAPHS } from './config';
+---
+
+<BaseLayout
+  title="Copilote — Orbete"
+  description="Votre copilote de projet personnel. Posez vos questions, cadrez une décision, préparez une prise de parole."
+>
+  <style is:global>
+    .site-footer,
+    .site-header {
+      display: none !important;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    .msg {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .msg.user {
+      align-items: flex-end;
+      margin-left: auto;
+      max-width: min(100%, 34rem);
+    }
+
+    .msg.assistant {
+      align-items: flex-start;
+      max-width: min(100%, 42rem);
+    }
+
+    .msg-sender {
+      font-size: 0.68rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--deep);
+      opacity: 0.64;
+      padding-left: 0.25rem;
+    }
+
+    .msg.user .msg-sender {
+      display: none;
+    }
+
+    .msg-bubble {
+      width: 100%;
+      border-radius: 1.35rem;
+      padding: 0.95rem 1rem 0.88rem;
+      border: 1px solid rgba(10, 25, 47, 0.08);
+      background: #fff;
+      box-shadow: 0 10px 24px rgba(10, 25, 47, 0.05);
+      line-height: 1.56;
+      overflow-wrap: anywhere;
+    }
+
+    .msg.user .msg-bubble {
+      background: var(--deep);
+      color: #fff;
+      border-color: transparent;
+      border-bottom-right-radius: 0.45rem;
+      box-shadow: 0 14px 28px rgba(10, 25, 47, 0.18);
+    }
+
+    .msg.assistant .msg-bubble {
+      color: var(--ink);
+      border-bottom-left-radius: 0.45rem;
+    }
+
+    .msg-bubble p {
+      margin: 0 0 0.8rem;
+      font-size: 0.95rem;
+    }
+
+    .msg-bubble p:last-child {
+      margin-bottom: 0;
+    }
+
+    .reply-lead {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--deep);
+    }
+
+    .reply-section + .reply-section {
+      margin-top: 0.8rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(10, 25, 47, 0.08);
+    }
+
+    .reply-section h3 {
+      color: var(--deep);
+      font-size: 0.76rem;
+      line-height: 1.2;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      margin: 0 0 0.65rem;
+    }
+
+    .reply-list {
+      margin: 0;
+      padding-left: 1.15rem;
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    .reply-list li {
+      margin: 0;
+      padding-left: 0.1rem;
+    }
+
+    .reply-resource-list {
+      list-style: none;
+      display: grid;
+      gap: 0.8rem;
+      margin: 0;
+      padding: 0;
+    }
+
+    .reply-resource-list li {
+      display: grid;
+      gap: 0.22rem;
+      padding: 0.8rem 0.9rem;
+      border-radius: 1rem;
+      background: rgba(10, 25, 47, 0.03);
+      border: 1px solid rgba(10, 25, 47, 0.06);
+    }
+
+    .reply-resource-link {
+      color: var(--deep);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .reply-resource-link:hover,
+    .reply-resource-link:focus-visible {
+      color: var(--accent-red);
+      outline: none;
+    }
+
+    .reply-resource-promise {
+      font-size: 0.88rem;
+      line-height: 1.45;
+      color: rgba(30, 42, 50, 0.74);
+    }
+
+    .typing-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      min-height: 3.25rem;
+    }
+
+    .dot {
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 999px;
+      background: rgba(10, 25, 47, 0.32);
+      animation: orbete-bounce 1.2s infinite ease-in-out;
+    }
+
+    .dot:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    .dot:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    @keyframes orbete-bounce {
+      0%,
+      80%,
+      100% {
+        transform: translateY(0);
+        opacity: 0.35;
+      }
+
+      40% {
+        transform: translateY(-0.22rem);
+        opacity: 1;
+      }
+    }
+
+    .paywall-card {
+      background: linear-gradient(180deg, rgba(10, 25, 47, 0.98) 0%, rgba(10, 25, 47, 0.92) 100%) !important;
+      color: #fff !important;
+      border-color: transparent !important;
+    }
+
+    .paywall-card p,
+    .paywall-card strong {
+      color: #fff !important;
+    }
+
+    .paywall-cta {
+      width: 100%;
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    @media (min-width: 900px) {
+      .msg.user {
+        max-width: 38rem;
+      }
+
+      .msg.assistant {
+        max-width: 44rem;
+      }
+
+      .msg-bubble {
+        padding: 1.05rem 1.2rem 1rem;
+      }
+    }
+  </style>
+
+  <div class="copilot-app-root" data-orbete-copilot-root data-upgrade-url="/offres" data-endpoint="/api/chat">
+    <div class="drawer-overlay" data-drawer-overlay></div>
+
+    <aside class="profile-drawer" data-profile-drawer aria-label="Profil Orbete">
+      <div class="drawer-top">
+        <div>
+          <p class="drawer-kicker">Votre espace</p>
+          <h2>Profil et niveau d'appui</h2>
+        </div>
+        <button class="drawer-close" type="button" aria-label="Fermer" data-close-drawer>×</button>
+      </div>
+
+      <div class="drawer-panel hidden" data-profile-filled>
+        <p class="drawer-status" data-profile-status></p>
+        <h3 class="drawer-name" data-profile-name>—</h3>
+        <p class="drawer-summary" data-profile-summary></p>
+        <div class="drawer-tags" data-profile-tags></div>
+        <div class="drawer-note">
+          Orbete tient compte de votre profil pour nuancer la pédagogie, le niveau de cadrage et le type d'appui proposé.
+        </div>
+      </div>
+
+      <div class="drawer-panel" data-profile-empty>
+        <p class="drawer-status">Mode libre actif</p>
+        <div class="drawer-note" set:html={PROFILE_REQUIRED_HTML}></div>
+      </div>
+
+      <div class="drawer-links">
+        <a href="/diagnostic">Faire le diagnostic</a>
+        <a href="/mon-compte">Mon espace Orbete</a>
+        <a href="/offres">Voir les offres</a>
+      </div>
+    </aside>
+
+    <div class="chat-shell">
+      <header class="app-header">
+        <a href="/" class="home-link">← Retour à la home</a>
+
+        <div class="header-copy">
+          <span class="app-title">Orbete</span>
+          <span class="app-subtitle">Copilote de projet</span>
+        </div>
+
+        <div class="header-meta">
+          <span class="mode-pill" data-mode-badge>Version libre</span>
+          <span class="counter-label" data-counter-label>{FREE_LIMIT}/{FREE_LIMIT}</span>
+        </div>
+
+        <button class="profile-trigger" type="button" aria-label="Ouvrir le profil" data-open-drawer>
+          <span class="profile-trigger-icon">M</span>
+        </button>
+      </header>
+
+      <main class="chat-thread" data-chat-thread>
+        <div class="chat-inner">
+          <section class="intro-card" data-intro-card>
+            <p class="intro-kicker">Le bon niveau d'appui, au bon moment</p>
+            <h1>Parlez d'abord de ce que vous vivez.</h1>
+            <p class="intro-text">
+              Décrivez une situation concrète, un stress, un arbitrage, une prise de parole ou un dossier
+              qui vous bloque. Orbete commence par lire la situation avant de proposer une réponse.
+            </p>
+            <div class="counter-row">
+              <div class="counter-dots" data-counter-dots></div>
+              <span class="counter-caption">Version libre : 5 messages par session</span>
+            </div>
+            <p class="intro-linkline">
+              Pour des réponses plus personnalisées, vous pouvez aussi <a href="/diagnostic">faire le diagnostic</a>.
+            </p>
+          </section>
+
+          <div class="messages-container" data-messages>
+            <article class="msg assistant">
+              <span class="msg-sender">Orbete</span>
+              <div class="msg-bubble">
+                {WELCOME_PARAGRAPHS.map((paragraph) => <p>{paragraph}</p>)}
+              </div>
+            </article>
+          </div>
+
+          <section class="suggestions-strip" data-suggestions>
+            <p class="suggestions-title">Pour commencer</p>
+            <div class="suggestions-grid">
+              {SUGGESTIONS.map((suggestion) => (
+                <button type="button" class="suggestion-chip" data-suggestion={suggestion}>
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          </section>
+        </div>
+      </main>
+
+      <footer class="app-input-bar">
+        <p class="privacy-notice">Pour votre confidentialité, évitez de mentionner des noms de personnes ou des informations permettant d'identifier des tiers.</p>
+        <div class="input-shell">
+          <button class="mic-btn" type="button" aria-label="Dicter" data-mic-btn>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3Z"></path>
+              <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2Z"></path>
+            </svg>
+          </button>
+
+          <label class="input-wrap">
+            <span class="sr-only">Votre message</span>
+            <textarea
+              rows="1"
+              data-user-input
+              placeholder="Décrivez votre situation..."
+              aria-label="Votre message à Orbete"
+            ></textarea>
+          </label>
+
+          <button class="send-btn" type="button" aria-label="Envoyer" data-send-btn>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2Z"></path>
+            </svg>
+          </button>
+        </div>
+
+        <p class="input-hint" data-input-hint>Version libre · 5 messages restants</p>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    import './client.ts';
+  </script>
+
+  <style>
+    .copilot-app-root {
+      min-height: 100dvh;
+      background:
+        radial-gradient(circle at top right, rgba(173, 255, 47, 0.07), transparent 28%),
+        radial-gradient(circle at top left, rgba(230, 57, 70, 0.06), transparent 25%),
+        #f4f6f8;
+      color: var(--ink);
+    }
+
+    .chat-shell {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 0.9rem;
+      padding:
+        calc(env(safe-area-inset-top, 0px) + 0.9rem)
+        1rem
+        0.95rem;
+      background: rgba(248, 249, 250, 0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(10, 25, 47, 0.08);
+    }
+
+    .home-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.8rem;
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      color: var(--deep);
+      background: rgba(255, 255, 255, 0.94);
+      border: 1px solid rgba(10, 25, 47, 0.08);
+      box-shadow: 0 8px 22px rgba(10, 25, 47, 0.06);
+      white-space: nowrap;
+    }
+
+    .home-link:hover,
+    .home-link:focus-visible {
+      color: #fff;
+      background: var(--accent-red);
+      border-color: var(--accent-red);
+      outline: none;
+    }
+
+    .profile-trigger {
+      width: 2.8rem;
+      height: 2.8rem;
+      border: none;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 8px 22px rgba(10, 25, 47, 0.08);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--deep);
+    }
+
+    .profile-trigger-icon {
+      font-size: 0.95rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+
+    .header-copy {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .app-title {
+      font-size: 0.95rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      color: var(--deep);
+    }
+
+    .app-subtitle {
+      font-size: 0.75rem;
+      color: rgba(10, 25, 47, 0.66);
+    }
+
+    .header-meta {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.35rem;
+    }
+
+    .mode-pill,
+    .counter-label {
+      white-space: nowrap;
+      font-size: 0.74rem;
+      font-weight: 700;
+      border-radius: 999px;
+      padding: 0.36rem 0.72rem;
+    }
+
+    .mode-pill {
+      background: rgba(255, 255, 255, 0.92);
+      color: var(--deep);
+      border: 1px solid rgba(10, 25, 47, 0.08);
+    }
+
+    .counter-label {
+      background: var(--deep);
+      color: #fff;
+    }
+
+    .chat-thread {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 0.75rem 0 7.6rem;
+    }
+
+    .chat-inner {
+      width: min(100%, 50rem);
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .intro-card {
+      margin: 0.2rem 0 1rem;
+      padding: 1rem;
+      border-radius: 1.6rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.82));
+      border: 1px solid rgba(10, 25, 47, 0.08);
+      box-shadow: 0 14px 30px rgba(10, 25, 47, 0.05);
+    }
+
+    .intro-kicker {
+      margin: 0 0 0.55rem;
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(10, 25, 47, 0.7);
+    }
+
+    .intro-card h1 {
+      font-size: clamp(1.45rem, 5vw, 2.2rem);
+      line-height: 1.1;
+      margin: 0 0 0.7rem;
+      color: var(--deep);
+    }
+
+    .intro-text {
+      margin: 0;
+      font-size: 0.95rem;
+      color: rgba(30, 42, 50, 0.84);
+    }
+
+    .counter-row {
+      margin-top: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .intro-linkline {
+      margin: 0.8rem 0 0;
+      font-size: 0.83rem;
+      line-height: 1.45;
+      color: rgba(10, 25, 47, 0.62);
+    }
+
+    .intro-linkline a {
+      color: var(--deep);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    .counter-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      min-height: 0.75rem;
+    }
+
+    .counter-dot {
+      width: 0.6rem;
+      height: 0.6rem;
+      border-radius: 999px;
+      background: rgba(10, 25, 47, 0.15);
+    }
+
+    .counter-dot.used {
+      background: var(--deep);
+    }
+
+    .counter-note,
+    .counter-caption {
+      font-size: 0.8rem;
+      color: rgba(10, 25, 47, 0.64);
+    }
+
+    .messages-container {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .suggestions-strip {
+      margin-top: 0.8rem;
+      padding-bottom: 0.35rem;
+    }
+
+    .suggestions-title {
+      margin: 0 0 0.8rem;
+      font-size: 0.74rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 800;
+      color: rgba(10, 25, 47, 0.58);
+    }
+
+    .suggestions-grid {
+      display: grid;
+      gap: 0.7rem;
+    }
+
+    .suggestion-chip {
+      appearance: none;
+      width: 100%;
+      text-align: left;
+      border: 1px solid rgba(10, 25, 47, 0.08);
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--deep);
+      border-radius: 1rem;
+      padding: 0.85rem 0.95rem;
+      font: inherit;
+      font-size: 0.89rem;
+      line-height: 1.45;
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+    }
+
+    .suggestion-chip:hover,
+    .suggestion-chip:focus-visible {
+      background: #fff;
+      border-color: rgba(10, 25, 47, 0.22);
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .app-input-bar {
+      position: sticky;
+      bottom: 0;
+      z-index: 12;
+      padding:
+        0.8rem
+        1rem
+        calc(env(safe-area-inset-bottom, 0px) + 0.9rem);
+      background: linear-gradient(180deg, rgba(244, 246, 248, 0.4) 0%, rgba(244, 246, 248, 0.98) 35%);
+      backdrop-filter: blur(18px);
+    }
+
+    .input-shell {
+      width: min(100%, 50rem);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 0.6rem;
+      align-items: end;
+      padding: 0.5rem;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(10, 25, 47, 0.09);
+      border-radius: 1.45rem;
+      box-shadow: 0 18px 34px rgba(10, 25, 47, 0.08);
+    }
+
+    .mic-btn,
+    .send-btn {
+      width: 2.8rem;
+      height: 2.8rem;
+      border: none;
+      border-radius: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+    }
+
+    .mic-btn {
+      background: rgba(10, 25, 47, 0.05);
+      color: rgba(10, 25, 47, 0.55);
+    }
+
+    .mic-btn svg,
+    .send-btn svg {
+      width: 1.15rem;
+      height: 1.15rem;
+      fill: currentColor;
+    }
+
+    .mic-btn.recording {
+      color: var(--accent-red);
+      background: rgba(230, 57, 70, 0.1);
+    }
+
+    .send-btn {
+      background: var(--deep);
+      color: #fff;
+    }
+
+    .send-btn:hover,
+    .mic-btn:hover,
+    .send-btn:focus-visible,
+    .mic-btn:focus-visible {
+      transform: translateY(-1px);
+      outline: none;
+    }
+
+    .send-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .input-wrap {
+      display: block;
+      min-width: 0;
+    }
+
+    .input-wrap textarea {
+      width: 100%;
+      border: none;
+      background: transparent;
+      color: var(--deep);
+      font: inherit;
+      font-size: 1rem;
+      line-height: 1.55;
+      resize: none;
+      max-height: 11rem;
+      min-height: 3rem;
+      outline: none;
+      padding: 0.55rem 0;
+    }
+
+    .input-wrap textarea::placeholder {
+      color: rgba(10, 25, 47, 0.46);
+    }
+
+    .privacy-notice {
+      width: min(100%, 50rem);
+      margin: 0 auto 0.55rem;
+      padding: 0.55rem 0.85rem;
+      font-size: 0.76rem;
+      line-height: 1.45;
+      color: rgba(10, 25, 47, 0.55);
+      background: rgba(10, 25, 47, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+    }
+
+    .input-hint {
+      width: min(100%, 50rem);
+      margin: 0.55rem auto 0;
+      text-align: center;
+      font-size: 0.78rem;
+      color: rgba(10, 25, 47, 0.62);
+    }
+
+    .drawer-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 39;
+      background: rgba(10, 25, 47, 0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s ease;
+    }
+
+    .drawer-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .profile-drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 40;
+      width: min(24rem, 88vw);
+      height: 100dvh;
+      padding:
+        calc(env(safe-area-inset-top, 0px) + 1rem)
+        1.1rem
+        calc(env(safe-area-inset-bottom, 0px) + 1rem);
+      background: #fff;
+      border-right: 1px solid rgba(10, 25, 47, 0.08);
+      box-shadow: 0 24px 60px rgba(10, 25, 47, 0.16);
+      transform: translateX(-100%);
+      transition: transform 0.22s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .profile-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .drawer-kicker {
+      margin: 0 0 0.35rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: rgba(10, 25, 47, 0.56);
+    }
+
+    .drawer-top h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      line-height: 1.1;
+      color: var(--deep);
+    }
+
+    .drawer-close {
+      border: none;
+      background: transparent;
+      color: rgba(10, 25, 47, 0.44);
+      font-size: 2rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .drawer-panel {
+      padding: 1rem;
+      border-radius: 1.15rem;
+      background: #f7f8fa;
+      border: 1px solid rgba(10, 25, 47, 0.06);
+    }
+
+    .drawer-status {
+      margin: 0 0 0.55rem;
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.11em;
+      text-transform: uppercase;
+      color: rgba(10, 25, 47, 0.58);
+    }
+
+    .drawer-name {
+      margin: 0 0 0.55rem;
+      font-size: 1.22rem;
+      color: var(--deep);
+    }
+
+    .drawer-summary {
+      margin: 0 0 0.9rem;
+      color: rgba(30, 42, 50, 0.82);
+      line-height: 1.5;
+    }
+
+    .drawer-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+    }
+
+    .profile-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.28rem 0.65rem;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid rgba(10, 25, 47, 0.08);
+      font-size: 0.79rem;
+      color: var(--deep);
+    }
+
+    .drawer-note {
+      margin-top: 0.95rem;
+      padding: 0.95rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      color: rgba(30, 42, 50, 0.82);
+      line-height: 1.5;
+    }
+
+    .drawer-note :global(a) {
+      color: var(--deep);
+      font-weight: 700;
+    }
+
+    .drawer-links {
+      margin-top: auto;
+      display: grid;
+      gap: 0.8rem;
+    }
+
+    .drawer-links a {
+      color: var(--deep);
+      text-decoration: none;
+      font-weight: 700;
+      padding: 0.85rem 0;
+      border-top: 1px solid rgba(10, 25, 47, 0.08);
+    }
+
+    @media (max-width: 767px) {
+      .profile-trigger,
+      .profile-drawer,
+      .drawer-overlay {
+        display: none;
+      }
+
+      .app-header {
+        grid-template-columns: auto 1fr auto;
+        gap: 0.65rem;
+      }
+
+      .msg.user,
+      .msg.assistant {
+        max-width: 100%;
+      }
+
+      .msg {
+        margin-bottom: 1.05rem;
+      }
+
+      .msg-bubble {
+        padding: 0.9rem 0.92rem 0.82rem;
+      }
+
+      .intro-card h1 {
+        font-size: 1.28rem;
+      }
+
+      .intro-text {
+        font-size: 0.91rem;
+      }
+
+      .chat-thread {
+        padding: 0.55rem 0 8.5rem;
+      }
+
+      .chat-inner {
+        padding: 0 0.82rem;
+      }
+
+      .app-input-bar {
+        padding-left: 0.82rem;
+        padding-right: 0.82rem;
+      }
+
+      .input-shell {
+        grid-template-columns: 1fr auto;
+        padding: 0.45rem 0.45rem 0.45rem 0.7rem;
+        border-radius: 1.2rem;
+      }
+
+      .mic-btn {
+        display: none;
+      }
+
+      .home-link {
+        padding: 0.38rem 0.72rem;
+        font-size: 0.72rem;
+      }
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    @media (min-width: 900px) {
+      .app-header {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+
+      .chat-inner {
+        padding: 0 1.5rem;
+      }
+
+      .intro-card {
+        padding: 1.5rem;
+      }
+
+      .suggestions-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .app-input-bar {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+      }
+    }
+  </style>
+</BaseLayout>

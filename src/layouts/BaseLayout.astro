@@ -1,0 +1,82 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Orbete — appui intelligent pour résidents locaux',
+  description = "Orbete aide les résidents locaux à diagnostiquer leurs besoins, accéder à des ressources ciblées et s'orienter vers le bon niveau d'accompagnement."
+} = Astro.props;
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Inter for reliability, Playfair Display for editorial italics -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#1B4332">
+  </head>
+  <body>
+    <!-- Grain Texture Overlay -->
+    <div class="grain-overlay"></div>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a href="/" class="header-logo">Orbete</a>
+        <nav class="header-nav">
+          <a href="/diagnostic">Diagnostic</a>
+          <a href="/ressources">Ressources</a>
+          <a href="/droits">Droits & devoirs</a>
+          <a href="/copilote">Copilote</a>
+          <a href="/mon-compte" class="header-compte">Mon compte</a>
+        </nav>
+      </div>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <p class="brand">Orbete</p>
+          <p class="brand-sub">République Design · Mandat local</p>
+          <p class="footer-credit">
+            Orbete est une offre de <a href="https://www.aline-etjaicrie.com/index.html">Be-Cosmo</a>.
+          </p>
+        </div>
+        <div class="footer-links">
+          <p class="footer-kicker">Navigation</p>
+          <ul class="footer-nav">
+            <li><a href="/mon-compte" style="color:var(--neon); font-weight:800;">Mon Compte</a></li>
+            <li><a href="/a-propos">À propos</a></li>
+            <li><a href="/offres">Nos offres</a></li>
+            <li><a href="/diagnostic">Diagnostic</a></li>
+            <li><a href="/ecoindex">Sobriété Numérique</a></li>
+            <li><a href="/mots">Les mots</a></li>
+            <li><a href="/droits">Droits & devoirs</a></li>
+            <li><a href="/analyseur">Décrypte mon document</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <li><a href="/mentions-legales">Mentions légales</a></li>
+            <li><a href="/confidentialite">Confidentialité</a></li>
+          </ul>
+        </div>
+        <div class="footer-eco">
+          <p class="footer-kicker"><a href="/ecoindex" style="color:var(--neon); text-decoration:none;">Innovation Sobriété · EcoIndex A</a></p>
+          <div class="footer-note">
+            <strong>Orbete est conçu pour une sobriété numérique forte :</strong>
+            Architecture Astro statique et hébergement éco-responsable.
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
