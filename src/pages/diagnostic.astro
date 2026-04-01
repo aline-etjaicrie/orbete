@@ -2,496 +2,1033 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout 
-  title="Diagnostic — Orbete" 
-  description="Faites un point rapide sur votre situation d’résident·e. Identifiez votre point de tension principal et vos points de vigilance.">
-  
-  <main class="diag-v1-launch">
+<BaseLayout
+  title="Diagnostic — Orbete"
+  description="En 6 questions, Orbete identifie tes besoins prioritaires et te propose les ressources les plus utiles pour ton étape actuelle.">
 
-    <!-- 1. ÉCRAN D'ENTRÉE -->
-    <div id="introSection" class="diag-step-v4 active">
+  <main class="diag-root">
+
+    <!-- ═══ INTRO ═══ -->
+    <div id="view-intro" class="diag-view active">
       <div class="container-narrow text-center">
-        <p class="diag-kicker-v4">Diagnostic Orbete</p>
-        <h1 class="diag-title-v4">Fais le point sur ton activité en 6 questions.</h1>
-        <p class="diag-lead-v4">En 6 questions, Orbete identifie tes besoins prioritaires et te propose les ressources les plus utiles pour ton étape actuelle.</p>
-        
-        <div class="diag-benefits-v4">
-          <div class="benefit-item">✨ <span>Une lecture claire de votre situation</span></div>
-          <div class="benefit-item">🛡️ <span>Vos points de vigilance prioritaires</span></div>
-          <div class="benefit-item">🎯 <span>Un appui adapté à votre réalité de projet</span></div>
+        <p class="kicker">Diagnostic Orbete</p>
+        <h1 class="intro-title">Fais le point sur ton activité<br />en 6 questions.</h1>
+        <p class="intro-lead">Orbete identifie tes besoins prioritaires et te propose les ressources les plus utiles pour là où tu en es.</p>
+
+        <div class="intro-benefits">
+          <div class="benefit">
+            <span class="benefit-icon">→</span>
+            <span>Une lecture claire de ta situation</span>
+          </div>
+          <div class="benefit">
+            <span class="benefit-icon">→</span>
+            <span>Ton point de vigilance principal</span>
+          </div>
+          <div class="benefit">
+            <span class="benefit-icon">→</span>
+            <span>Les piliers Orbete les plus utiles pour toi</span>
+          </div>
         </div>
 
-        <div class="diag-actions-v4">
-          <button class="btn-primary-v4 big" id="startBtn">Lancer le diagnostic</button>
-          <p class="diag-hint-v4">3 minutes · Confidentiel · Sans engagement</p>
-        </div>
+        <button class="btn-primary big" id="startBtn">Commencer le diagnostic</button>
+        <p class="intro-hint">3 minutes · Gratuit · Confidentiel</p>
       </div>
     </div>
 
-    <!-- QUESTIONS WRAPPER -->
-    <div id="questionsContainer" class="hidden">
-      <!-- STEPPER & PROGRESS -->
-      <nav class="diag-nav-v4">
+    <!-- ═══ QUESTIONS ═══ -->
+    <div id="view-questions" class="diag-view">
+
+      <nav class="diag-nav" id="diagNav">
         <div class="container-narrow">
-          <div class="nav-inner-v4">
-            <button class="back-link-v4" id="prevBtn" onclick="history.back()">← Retour</button>
-            <div class="stepper-v4">
-              <p id="stepLabel" class="step-label-v4">Question 1 sur 6</p>
-              <div class="progress-track-v4"><div id="progressFill" class="progress-fill-v4"></div></div>
+          <div class="nav-inner">
+            <button class="btn-back" id="prevBtn">← Retour</button>
+            <div class="progress-zone">
+              <span class="progress-label" id="progressLabel">Question 1 sur 6</span>
+              <div class="progress-track">
+                <div class="progress-fill" id="progressFill" style="width: 16.66%"></div>
+              </div>
             </div>
           </div>
         </div>
       </nav>
 
-      <div class="container-narrow questions-layout-v4">
-        
-        <!-- Q1 : AVANCEMENT DU PROJET -->
-        <div class="diag-step-v4 hidden" id="q1-step">
-          <h2 class="q-label-v4">Tu en es où dans ton projet ?</h2>
-          <div class="options-v4">
-            <button class="opt-v4" onclick="pick(this,’avancement’,’idee’,1)">J’ai une idée en cours</button>
-            <button class="opt-v4" onclick="pick(this,’avancement’,’lance_recent’,1)">Lancé·e depuis moins d’un an</button>
-            <button class="opt-v4" onclick="pick(this,’avancement’,’en_dev’,1)">En développement</button>
-            <button class="opt-v4" onclick="pick(this,’avancement’,’bien_installe’,1)">Bien installé·e</button>
-          </div>
+      <div class="container-narrow">
+        <div class="question-slot" id="questionSlot">
+          <!-- rendu par JS -->
         </div>
-
-        <!-- Q2 : STATUT JURIDIQUE -->
-        <div class="diag-step-v4 hidden" id="q2-step">
-          <h2 class="q-label-v4">Ton statut juridique ?</h2>
-          <div class="options-v4">
-            <button class="opt-v4" onclick="pick(this,’statut’,’pas_encore’,2)">Pas encore</button>
-            <button class="opt-v4" onclick="pick(this,’statut’,’micro’,2)">Micro-entrepreneur</button>
-            <button class="opt-v4" onclick="pick(this,’statut’,’societe’,2)">Société (SASU, EURL, SAS…)</button>
-            <button class="opt-v4" onclick="pick(this,’statut’,’asso’,2)">Association</button>
-            <button class="opt-v4" onclick="pick(this,’statut’,’autre’,2)">Autre</button>
-          </div>
-        </div>
-
-        <!-- Q3 : SECTEUR -->
-        <div class="diag-step-v4 hidden" id="q3-step">
-          <h2 class="q-label-v4">Ton secteur d’activité ?</h2>
-          <div class="options-v4">
-            <button class="opt-v4" onclick="pick(this,’secteur’,’artisanat’,3)">Métier manuel / artisanat</button>
-            <button class="opt-v4" onclick="pick(this,’secteur’,’art’,3)">Création artistique</button>
-            <button class="opt-v4" onclick="pick(this,’secteur’,’service’,3)">Service</button>
-            <button class="opt-v4" onclick="pick(this,’secteur’,’commerce’,3)">Commerce</button>
-            <button class="opt-v4" onclick="pick(this,’secteur’,’autre’,3)">Autre</button>
-          </div>
-        </div>
-
-        <!-- Q4 : FREIN PRINCIPAL -->
-        <div class="diag-step-v4 hidden" id="q4-step">
-          <h2 class="q-label-v4">Ton plus grand frein en ce moment ?</h2>
-          <div class="options-v4">
-            <button class="opt-v4" onclick="pick(this,’frein’,’demarches’,4)">Les démarches admin</button>
-            <button class="opt-v4" onclick="pick(this,’frein’,’visibilite’,4)">Me faire connaître</button>
-            <button class="opt-v4" onclick="pick(this,’frein’,’clients’,4)">Trouver des clients</button>
-            <button class="opt-v4" onclick="pick(this,’frein’,’finances’,4)">Gérer les finances</button>
-            <button class="opt-v4" onclick="pick(this,’frein’,’isolement’,4)">L’isolement</button>
-          </div>
-        </div>
-
-        <!-- Q5 : PRIORITÉ DE DÉVELOPPEMENT -->
-        <div class="diag-step-v4 hidden" id="q5-step">
-          <h2 class="q-label-v4">Ce que tu veux développer en priorité ?</h2>
-          <div class="options-v4">
-            <button class="opt-v4" onclick="pick(this,’priorite’,’structurer’,5)">Structurer mon activité</button>
-            <button class="opt-v4" onclick="pick(this,’priorite’,’visibilite’,5)">Développer ma visibilité</button>
-            <button class="opt-v4" onclick="pick(this,’priorite’,’gestion’,5)">Mieux gérer mon quotidien</button>
-            <button class="opt-v4" onclick="pick(this,’priorite’,’reseau’,5)">Agrandir mon réseau</button>
-          </div>
-        </div>
-
-        <!-- Q6 : LIEU BE-COSMO -->
-        <div class="diag-step-v4 hidden" id="q6-step">
-          <h2 class="q-label-v4">Tu es installé·e dans quel lieu Be-Cosmo ?</h2>
-          <div class="options-v4">
-            <button class="opt-v4" onclick="pick(this,’lieu’,’hermite’,6)">Charles Hermite — Paris 18e</button>
-            <button class="opt-v4" onclick="pick(this,’lieu’,’cargo’,6)">Le Cargo — Paris 19e</button>
-            <button class="opt-v4" onclick="pick(this,’lieu’,’montreuil’,6)">Porte de Montreuil — Paris 20e</button>
-            <button class="opt-v4" onclick="pick(this,’lieu’,’pas_encore’,6)">Pas encore</button>
-            <button class="opt-v4" onclick="pick(this,’lieu’,’autre’,6)">Autre</button>
-          </div>
-        </div>
-
-        <!-- TRANSITION -->
-        <div class="diag-step-v4 hidden text-center" id="calculating-step" style="padding: 4rem 0;">
-           <div class="loader-v4"></div>
-           <h2 class="q-label-v4">Votre diagnostic se prépare</h2>
-           <p style="opacity:0.6; max-width:400px; margin: 0 auto;">Orbete relie votre rôle, votre contexte et vos points de tension pour faire ressortir ce qui mérite le plus d’attention aujourd’hui.</p>
-        </div>
-
       </div>
     </div>
 
-    <!-- 4. RÉSULTAT FINAL -->
-    <div id="resultSection" class="diag-result-v4 hidden">
-       <div class="container-narrow">
-          
-          <header class="res-header-v4">
-             <span class="label-v4">Votre lecture de projet</span>
-             <h2 id="resVigilanceTitle" class="res-title-v4">—</h2>
-          </header>
+    <!-- ═══ CALCUL ═══ -->
+    <div id="view-calc" class="diag-view">
+      <div class="container-narrow text-center calc-zone">
+        <div class="loader"></div>
+        <h2 class="calc-title">Analyse en cours…</h2>
+        <p class="calc-sub">Orbete relie tes réponses pour faire ressortir ce qui t'aiderait le plus maintenant.</p>
+      </div>
+    </div>
 
-          <div class="res-body-v4">
-             
-             <!-- BLOC 1 : SITUATION -->
-             <section class="res-section-v4">
-                <h3 class="section-title-v4">1. Votre situation aujourd’hui</h3>
-                <p id="resSituationText" class="res-text-v4"></p>
-             </section>
+    <!-- ═══ RÉSULTAT ═══ -->
+    <div id="view-result" class="diag-view">
+      <div class="container-narrow result-zone">
 
-             <!-- BLOC 2 : VIGILANCE -->
-             <section class="res-section-v4">
-                <h3 class="section-title-v4">2. Votre point de vigilance principal</h3>
-                <div class="vigilance-card-v4">
-                   <p id="resVigilanceText"></p>
-                </div>
-             </section>
+        <header class="res-header">
+          <p class="kicker">Ton diagnostic Orbete</p>
+          <h2 class="res-headline" id="resHeadline">—</h2>
+        </header>
 
-             <!-- BLOC 3 : PRIORITÉS -->
-             <section class="res-section-v4">
-                <h3 class="section-title-v4">3. Ce qui vous aiderait le plus maintenant</h3>
-                <ul id="resPrioritiesList" class="res-list-v4"></ul>
-             </section>
+        <!-- BLOC 1 : SITUATION -->
+        <section class="res-block">
+          <p class="res-block-label">1. Ta situation aujourd'hui</p>
+          <p class="res-text" id="resSituation"></p>
+        </section>
 
-             <!-- BLOC 4 : RECOMMANDE (TYPE D'APPUI) -->
-             <section class="res-reco-v4">
-                <h3 class="section-title-v4">4. Le type d’appui le plus pertinent pour vous</h3>
-                <p id="resOfferText" class="res-text-v4" style="margin-bottom:2rem;"></p>
-                
-                <div id="resCTA" class="res-actions-v4">
-                   <!-- Filled by JS -->
-                </div>
-             </section>
+        <!-- BLOC 2 : VIGILANCE -->
+        <section class="res-block">
+          <p class="res-block-label">2. Ton point de vigilance principal</p>
+          <div class="vigilance-card" id="resVigilance"></div>
+        </section>
 
-             <!-- BLOC EMAIL (OPTIONNEL APRÈS RÉSULTAT) -->
-             <section class="res-email-v4" id="emailBox">
-                <h3>Recevoir votre synthèse</h3>
-                <p>Vous pouvez recevoir ce diagnostic par email pour le relire plus tard, le partager ou retrouver rapidement vos points de vigilance.</p>
-                <div class="email-input-v4">
-                   <input type="email" id="emailInput" placeholder="vous@collectivite.fr" />
-                   <button class="btn-primary-v4" onclick="submitEmail()">Recevoir</button>
-                </div>
-             </section>
+        <!-- BLOC 3 : CE QUI AIDE -->
+        <section class="res-block">
+          <p class="res-block-label">3. Ce qui t'aiderait le plus</p>
+          <ul class="res-list" id="resHelps"></ul>
+        </section>
 
-             <footer class="res-footer-v4 text-center">
-                <p>Un projet ne se porte pas seul·e face à l'incertitude.</p>
-                <a href="/" class="btn-link-v4">Retour à l'accueil</a>
-             </footer>
+        <!-- BLOC 4 : PILIERS -->
+        <section class="res-pillars">
+          <p class="res-block-label" style="color: var(--gold);">4. Les ressources Orbete pour toi</p>
+          <p class="res-pillars-intro" id="resPillarsIntro"></p>
+          <div class="pillars-grid" id="resPillarsGrid"></div>
+        </section>
 
-          </div>
-       </div>
+        <!-- ACTIONS -->
+        <div class="res-actions">
+          <a href="/ressources" class="btn-primary big" id="resCtaResources">Explorer mes ressources →</a>
+          <a href="/mon-compte" class="btn-secondary">Aller à mon tableau de bord</a>
+          <a href="/copilote" class="btn-link">Poser une question au copilote</a>
+        </div>
+
+        <footer class="res-footer">
+          <a href="/" class="btn-link dim">← Retour à l'accueil</a>
+        </footer>
+
+      </div>
     </div>
 
   </main>
 
   <style>
+    /* ── TOKENS ── */
     :root {
-      --deep: #1B4332;
-      --neon: #D4A853;
-      --red: #D4A853;
+      --green: #1B4332;
+      --gold: #D4A853;
       --bg: #F9F6F0;
-      --card-bg: #FFFFFF;
-      --border: rgba(10, 25, 47, 0.08);
+      --white: #FFFFFF;
+      --text: #1A1A1A;
+      --muted: rgba(26,26,26,0.5);
+      --border: rgba(27,67,50,0.12);
+      --radius: 16px;
+      --radius-lg: 24px;
     }
 
-    .diag-v1-launch { background: var(--bg); min-height: 100vh; font-family: 'Inter', system-ui, sans-serif; color: var(--deep); }
-    .container-narrow { max-width: 680px; margin: 0 auto; padding: 0 1.5rem; width: 100%; box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* STEP MANAGEMENT */
-    .diag-step-v4 { opacity: 0; transform: translateY(10px); transition: all 0.4s ease; display: none; }
-    .diag-step-v4.active { display: block; opacity: 1; transform: translateY(0); }
-    .hidden { display: none !important; }
-
-    /* ÉCRAN D'ENTRÉE */
-    #introSection { padding: 8vh 0; }
-    .diag-kicker-v4 { text-transform: uppercase; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em; color: var(--red); margin-bottom: 1.5rem; }
-    .diag-title-v4 { font-size: clamp(2rem, 7vw, 3.2rem); line-height: 1.1; font-weight: 800; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
-    .diag-lead-v4 { font-size: 1.25rem; line-height: 1.5; opacity: 0.8; margin-bottom: 3rem; }
-    
-    .diag-benefits-v4 { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 4rem; text-align: left; max-width: 440px; margin-inline: auto; }
-    .benefit-item { display: flex; align-items: center; gap: 1rem; font-weight: 600; font-size: 1.1rem; }
-
-    .diag-hint-v4 { margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.5; font-weight: 500; }
-
-    /* NAV & PROGRESS */
-    .diag-nav-v4 { padding: 2rem 0; background: #fff; border-bottom: 1px solid rgba(0,0,0,0.05); margin-bottom: 3rem; position: sticky; top: 0; z-index: 10; }
-    .nav-inner-v4 { display: flex; align-items: center; justify-content: space-between; gap: 2rem; }
-    .back-link-v4 { background: none; border: none; font-weight: 700; color: var(--deep); opacity: 0.4; cursor: pointer; font-size: 0.9rem; padding: 0; }
-    .back-link-v4:hover { opacity: 1; }
-    .stepper-v4 { flex: 1; display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; }
-    .step-label-v4 { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: #999; letter-spacing: 0.05em; }
-    .progress-track-v4 { width: 100px; height: 4px; background: #EEE; border-radius: 99px; overflow: hidden; }
-    .progress-fill-v4 { height: 100%; background: var(--red); width: 16.6%; transition: width 0.4s ease; }
-
-    /* QUESTIONS */
-    .questions-layout-v4 { padding-bottom: 5rem; }
-    .q-label-v4 { font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.2; font-weight: 800; margin-bottom: 1rem; }
-    .q-help-v4 { font-size: 1rem; opacity: 0.6; line-height: 1.5; margin-bottom: 2.5rem; }
-
-    .options-v4 { display: flex; flex-direction: column; gap: 0.8rem; }
-    .opt-v4 { 
-      padding: 1.2rem 1.5rem; background: #fff; border: 1.5px solid var(--border); border-radius: 16px; 
-      text-align: left; font-size: 1.1rem; font-weight: 700; color: var(--deep); cursor: pointer; transition: all 0.2s; 
-      line-height: 1.3;
+    .diag-root {
+      background: var(--bg);
+      min-height: 100vh;
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
     }
-    .opt-v4:hover { border-color: var(--deep); transform: translateX(5px); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-    .opt-v4.selected { border-width: 2.5px; border-color: var(--deep); background: #FAFBFD; }
 
-    /* RÉSULTAT */
-    .diag-result-v4 { padding: 6rem 0; background: #FFFDF8; }
-    .res-title-v4 { font-size: clamp(2.2rem, 6vw, 3.8rem); line-height: 1.05; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4rem; cursor: default; }
-    .res-section-v4 { margin-bottom: 4rem; }
-    .section-title-v4 { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; color: var(--red); margin-bottom: 1.5rem; }
-    .res-text-v4 { font-size: 1.2rem; line-height: 1.6; color: #333; }
-    
-    .vigilance-card-v4 { background: #fff; border: 1.5px solid var(--deep); padding: 2.5rem; border-radius: 20px; font-size: 1.3rem; font-weight: 700; line-height: 1.4; box-shadow: 0 10px 30px rgba(0,0,0,0.04); }
-    
-    .res-list-v4 { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1rem; }
-    .res-list-v4 li { position: relative; padding-left: 2rem; font-size: 1.15rem; font-weight: 600; color: #444; }
-    .res-list-v4 li::before { content: "→"; position: absolute; left: 0; color: var(--red); font-weight: 800; }
+    .container-narrow {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      width: 100%;
+    }
 
-    .res-reco-v4 { background: var(--deep); color: #fff; padding: 4rem; border-radius: 32px; margin: 5rem 0; position: relative; overflow: hidden; }
-    .res-reco-v4 .section-title-v4 { color: var(--neon); }
-    .res-reco-v4 .res-text-v4 { color: #fff; opacity: 0.9; }
-    .res-actions-v4 { display: flex; flex-direction: column; gap: 1.2rem; }
+    .text-center { text-align: center; }
 
-    /* EMAIL BOX */
-    .res-email-v4 { background: #fff; border: 1px solid #EEE; padding: 3rem; border-radius: 24px; margin-bottom: 5rem; text-align: center; }
-    .res-email-v4 h3 { font-size: 1.5rem; margin-bottom: 1rem; }
-    .res-email-v4 p { opacity: 0.6; margin-bottom: 2rem; max-width: 440px; margin-inline: auto; line-height: 1.5; }
-    .email-input-v4 { display: flex; gap: 0.5rem; max-width: 480px; margin-inline: auto; }
-    .email-input-v4 input { flex: 1; padding: 1.1rem 1.4rem; border: 1.5px solid var(--border); border-radius: 12px; font-size: 1rem; font-family: inherit; }
+    /* ── VIEWS ── */
+    .diag-view { display: none; }
+    .diag-view.active { display: block; }
 
-    /* BUTTONS */
-    .btn-primary-v4 { background: var(--deep); color: #fff; border: none; padding: 1.1rem 2.2rem; border-radius: 14px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: all 0.2s; display: inline-block; text-align: center; }
-    .btn-primary-v4:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
-    .btn-primary-v4.big { font-size: 1.2rem; padding: 1.4rem 3.5rem; border-radius: 18px; }
-    
-    .btn-secondary-v4 { background: rgba(255,255,255,0.1); color: #fff; border: 1.5px solid rgba(255,255,255,0.2); padding: 1.1rem 2.2rem; border-radius: 14px; font-weight: 700; cursor: pointer; text-align: center; }
-    .btn-secondary-v4:hover { background: rgba(255,255,255,0.2); }
-    
-    .btn-link-v4 { font-weight: 700; color: var(--deep); text-decoration: none; opacity: 0.5; }
-    .btn-link-v4:hover { opacity: 1; }
+    /* ── INTRO ── */
+    #view-intro { padding: 8vh 0 6vh; }
 
-    /* LOADER */
-    .loader-v4 { width: 44px; height: 44px; border: 4px solid #E5E7EB; border-top-color: var(--red); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 2rem; }
+    .kicker {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .intro-title {
+      font-size: clamp(2rem, 6vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--green);
+      margin-bottom: 1.25rem;
+    }
+
+    .intro-lead {
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 3rem;
+      max-width: 500px;
+      margin-inline: auto;
+    }
+
+    .intro-benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      margin-bottom: 3.5rem;
+      text-align: left;
+      max-width: 400px;
+      margin-inline: auto;
+    }
+
+    .benefit {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .benefit-icon {
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .intro-hint {
+      margin-top: 1.25rem;
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    /* ── NAV ── */
+    .diag-nav {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 1.25rem 0;
+      margin-bottom: 3.5rem;
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .btn-back {
+      background: none;
+      border: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--green);
+      opacity: 0.4;
+      cursor: pointer;
+      padding: 0;
+      white-space: nowrap;
+      transition: opacity 0.15s;
+    }
+    .btn-back:hover { opacity: 1; }
+
+    .progress-zone {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.5rem;
+    }
+
+    .progress-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--muted);
+    }
+
+    .progress-track {
+      width: 120px;
+      height: 4px;
+      background: #E5E0D8;
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      border-radius: 99px;
+      transition: width 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ── QUESTION SLOT ── */
+    .question-slot {
+      padding-bottom: 5rem;
+      transition: opacity 0.22s ease, transform 0.22s ease;
+    }
+
+    .question-slot.exit {
+      opacity: 0;
+      transform: translateX(-24px);
+    }
+
+    .question-slot.enter {
+      opacity: 0;
+      transform: translateX(28px);
+    }
+
+    .q-text {
+      font-size: clamp(1.5rem, 5vw, 2.2rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--green);
+      margin-bottom: 2.5rem;
+      letter-spacing: -0.015em;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .opt {
+      display: block;
+      width: 100%;
+      padding: 1.15rem 1.5rem;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      text-align: left;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s, background 0.15s;
+      line-height: 1.35;
+    }
+
+    .opt:hover {
+      border-color: var(--green);
+      transform: translateX(4px);
+      box-shadow: 0 3px 12px rgba(27,67,50,0.08);
+    }
+
+    .opt.selected {
+      border-color: var(--green);
+      border-width: 2px;
+      background: rgba(27,67,50,0.04);
+    }
+
+    /* ── CALC ── */
+    #view-calc { padding: 15vh 0; }
+
+    .calc-zone { display: flex; flex-direction: column; align-items: center; }
+
+    .loader {
+      width: 40px;
+      height: 40px;
+      border: 3px solid #E5E0D8;
+      border-top-color: var(--gold);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-bottom: 2rem;
+    }
+
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* RESPONSIVE */
-    @media (max-width: 600px) {
-      #introSection { padding-top: 5vh; }
-      .diag-title-v4 { font-size: 2.4rem; }
-      .diag-lead-v4 { font-size: 1.1rem; }
-      .res-reco-v4 { padding: 2.5rem 1.5rem; border-radius: 24px; margin: 3rem 0; }
-      .email-input-v4 { flex-direction: column; }
-      .btn-primary-v4.big { width: 100%; box-sizing: border-box; }
-      .opt-v4 { padding: 1rem 1.2rem; font-size: 1rem; border-radius: 14px; }
+    .calc-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+
+    .calc-sub {
+      font-size: 1rem;
+      color: var(--muted);
+      max-width: 400px;
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    /* ── RÉSULTAT ── */
+    #view-result { padding: 5vh 0 8vh; }
+
+    .result-zone { display: flex; flex-direction: column; gap: 0; }
+
+    .res-header {
+      margin-bottom: 3.5rem;
+      padding-bottom: 2.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .res-headline {
+      font-size: clamp(1.6rem, 5vw, 2.4rem);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--green);
+      letter-spacing: -0.02em;
+      margin-top: 0.75rem;
+    }
+
+    .res-block {
+      padding: 2.5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .res-block-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+
+    .res-text {
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #333;
+    }
+
+    .vigilance-card {
+      background: var(--white);
+      border: 2px solid var(--green);
+      border-radius: var(--radius-lg);
+      padding: 2rem 2.25rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--green);
+      box-shadow: 0 6px 24px rgba(27,67,50,0.07);
+    }
+
+    .res-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      padding: 0;
+    }
+
+    .res-list li {
+      padding-left: 1.75rem;
+      position: relative;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #3a3a3a;
+      line-height: 1.5;
+    }
+
+    .res-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      font-weight: 900;
+    }
+
+    /* ── PILIERS ── */
+    .res-pillars {
+      background: var(--green);
+      color: #fff;
+      padding: 3rem 2.5rem;
+      border-radius: 28px;
+      margin: 3rem 0;
+    }
+
+    .res-pillars .res-block-label {
+      color: var(--gold);
+    }
+
+    .res-pillars-intro {
+      font-size: 1rem;
+      line-height: 1.6;
+      opacity: 0.85;
+      margin-bottom: 2rem;
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    .pillar-card {
+      background: rgba(255,255,255,0.08);
+      border: 1.5px solid rgba(255,255,255,0.15);
+      border-radius: var(--radius);
+      padding: 1.5rem 1.25rem;
+      transition: background 0.15s;
+    }
+
+    .pillar-card.active {
+      background: rgba(212,168,83,0.18);
+      border-color: var(--gold);
+    }
+
+    .pillar-card-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.4rem;
+    }
+
+    .pillar-card.active .pillar-card-name {
+      color: var(--gold);
+    }
+
+    .pillar-card-desc {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      opacity: 0.7;
+      color: #fff;
+    }
+
+    /* ── ACTIONS ── */
+    .res-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 1rem;
+      align-items: flex-start;
+    }
+
+    .res-footer {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      display: inline-block;
+      background: var(--green);
+      color: #fff;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: transform 0.15s, box-shadow 0.15s;
+      text-align: center;
+    }
+
+    .btn-primary.big {
+      padding: 1.25rem 3rem;
+      font-size: 1.1rem;
+      border-radius: 18px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(27,67,50,0.2);
+    }
+
+    .btn-secondary {
+      display: inline-block;
+      background: transparent;
+      color: var(--green);
+      border: 2px solid var(--border);
+      padding: 1rem 2rem;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.15s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--green);
+    }
+
+    .btn-link {
+      display: inline-block;
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.95rem;
+      opacity: 0.6;
+      padding: 0.5rem 0;
+      transition: opacity 0.15s;
+    }
+
+    .btn-link:hover { opacity: 1; }
+    .btn-link.dim { opacity: 0.4; }
+    .btn-link.dim:hover { opacity: 0.8; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 580px) {
+      #view-intro { padding: 5vh 0 4vh; }
+      .intro-title { font-size: 2rem; }
+      .pillars-grid { grid-template-columns: 1fr; }
+      .res-pillars { padding: 2.5rem 1.75rem; border-radius: 20px; }
+      .btn-primary.big { width: 100%; }
+      .btn-secondary { width: 100%; text-align: center; }
+      .vigilance-card { padding: 1.5rem 1.5rem; font-size: 1.05rem; }
     }
   </style>
 
   <script is:inline>
-    const state = { answers: {}, step: 0 };
-    const STEPS = ['intro', 'q1', 'q2', 'q3', 'q4', 'q5', 'q6', 'calc'];
+    /* ────────────────────────────────────────────
+       DATA
+    ──────────────────────────────────────────── */
+    var QUESTIONS = [
+      {
+        key: 'avancement',
+        label: 'Tu en es où dans ton projet ?',
+        options: [
+          { value: 'idee',          label: "J'ai une idée en cours" },
+          { value: 'lance_recent',  label: "Lancé·e depuis moins d'un an" },
+          { value: 'en_dev',        label: 'En développement' },
+          { value: 'bien_installe', label: 'Bien installé·e' }
+        ]
+      },
+      {
+        key: 'statut',
+        label: 'Ton statut juridique ?',
+        options: [
+          { value: 'pas_encore', label: 'Pas encore' },
+          { value: 'micro',      label: 'Micro-entrepreneur' },
+          { value: 'societe',    label: 'Société (SASU, EURL, SAS…)' },
+          { value: 'asso',       label: 'Association' },
+          { value: 'autre',      label: 'Autre' }
+        ]
+      },
+      {
+        key: 'secteur',
+        label: "Ton secteur d'activité ?",
+        options: [
+          { value: 'artisanat', label: 'Métier manuel / artisanat' },
+          { value: 'art',       label: 'Création artistique' },
+          { value: 'service',   label: 'Service' },
+          { value: 'commerce',  label: 'Commerce' },
+          { value: 'autre',     label: 'Autre' }
+        ]
+      },
+      {
+        key: 'frein',
+        label: 'Ton plus grand frein en ce moment ?',
+        options: [
+          { value: 'demarches', label: 'Les démarches admin' },
+          { value: 'visibilite', label: 'Me faire connaître' },
+          { value: 'clients',   label: 'Trouver des clients' },
+          { value: 'finances',  label: 'Gérer les finances' },
+          { value: 'isolement', label: "L'isolement" }
+        ]
+      },
+      {
+        key: 'priorite',
+        label: 'Ce que tu veux développer en priorité ?',
+        options: [
+          { value: 'structurer', label: 'Structurer mon activité' },
+          { value: 'visibilite', label: 'Développer ma visibilité' },
+          { value: 'gestion',    label: 'Mieux gérer mon quotidien' },
+          { value: 'reseau',     label: 'Agrandir mon réseau' }
+        ]
+      },
+      {
+        key: 'lieu',
+        label: 'Tu es installé·e dans quel lieu Be-Cosmo ?',
+        options: [
+          { value: 'hermite',   label: 'Charles Hermite — Paris 18e' },
+          { value: 'cargo',     label: 'Le Cargo — Paris 19e' },
+          { value: 'montreuil', label: 'Porte de Montreuil — Paris 20e' },
+          { value: 'pas_encore', label: 'Pas encore' },
+          { value: 'autre',     label: 'Autre' }
+        ]
+      }
+    ];
 
-    function showStep(id) {
-       document.querySelectorAll('.diag-step-v4').forEach(s => {
-          s.classList.remove('active');
-          setTimeout(() => { if(!s.classList.contains('active')) s.classList.add('hidden'); }, 300);
-       });
-       const target = document.getElementById(id);
-       if(target) {
-          target.classList.remove('hidden');
-          setTimeout(() => target.classList.add('active'), 50);
-       }
-       // Update Progress
-       const idx = STEPS.indexOf(id.replace('-step', ''));
-       if(idx > 0 && idx < 7) {
-          document.getElementById('stepLabel').innerText = `Question ${idx} sur 6`;
-          document.getElementById('progressFill').style.width = (idx / 6) * 100 + '%';
-       }
+    var PILLARS = {
+      lancer: {
+        name: 'Lancer',
+        desc: 'Créer sa structure, statut juridique, aides à la création'
+      },
+      exister: {
+        name: 'Exister',
+        desc: 'Com, offre, visibilité, pitch'
+      },
+      gerer: {
+        name: 'Gérer',
+        desc: 'Admin, URSSAF, facturation, aides financières'
+      },
+      grandir: {
+        name: 'Grandir',
+        desc: 'Réseau, partenaires, développement'
+      }
+    };
+
+    /* ────────────────────────────────────────────
+       STATE
+    ──────────────────────────────────────────── */
+    var currentStep = 0;
+    var answers = {};
+
+    /* ────────────────────────────────────────────
+       VIEWS
+    ──────────────────────────────────────────── */
+    function showView(id) {
+      document.querySelectorAll('.diag-view').forEach(function(v) {
+        v.classList.remove('active');
+      });
+      var el = document.getElementById(id);
+      if (el) el.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    document.getElementById('startBtn').addEventListener('click', () => {
-       document.getElementById('introSection').classList.add('hidden');
-       document.getElementById('questionsContainer').classList.remove('hidden');
-       showStep('q1-step');
+    /* ────────────────────────────────────────────
+       QUESTION RENDERING
+    ──────────────────────────────────────────── */
+    function renderQuestion(idx, direction) {
+      var slot = document.getElementById('questionSlot');
+      var q = QUESTIONS[idx];
+
+      var html = '<h2 class="q-text">' + escHtml(q.label) + '</h2>'
+               + '<div class="options" role="list">';
+
+      q.options.forEach(function(opt) {
+        var isSelected = answers[q.key] === opt.value;
+        html += '<button class="opt' + (isSelected ? ' selected' : '') + '" '
+              + 'onclick="pickAnswer(\'' + esc(q.key) + '\',\'' + esc(opt.value) + '\')">'
+              + escHtml(opt.label)
+              + '</button>';
+      });
+
+      html += '</div>';
+
+      // animate out → swap → animate in
+      if (direction !== 0) {
+        slot.classList.add('exit');
+      }
+
+      setTimeout(function() {
+        slot.innerHTML = html;
+        slot.classList.remove('exit');
+        slot.classList.add('enter');
+        // Force reflow
+        void slot.offsetWidth;
+        slot.classList.remove('enter');
+      }, direction !== 0 ? 220 : 0);
+    }
+
+    function updateProgress(idx) {
+      var label = document.getElementById('progressLabel');
+      var fill = document.getElementById('progressFill');
+      if (label) label.textContent = 'Question ' + (idx + 1) + ' sur 6';
+      if (fill) fill.style.width = ((idx + 1) / 6 * 100) + '%';
+    }
+
+    /* ────────────────────────────────────────────
+       NAVIGATION
+    ──────────────────────────────────────────── */
+    function pickAnswer(key, value) {
+      // visual feedback: mark selected immediately
+      document.querySelectorAll('.opt').forEach(function(btn) {
+        btn.classList.remove('selected');
+      });
+      event.currentTarget.classList.add('selected');
+
+      answers[key] = value;
+
+      if (currentStep < QUESTIONS.length - 1) {
+        currentStep++;
+        setTimeout(function() {
+          updateProgress(currentStep);
+          renderQuestion(currentStep, 1);
+        }, 240);
+      } else {
+        // last question answered → go to calc
+        showView('view-calc');
+        setTimeout(processDiagnosis, 1600);
+      }
+    }
+
+    function goPrev() {
+      if (currentStep > 0) {
+        currentStep--;
+        updateProgress(currentStep);
+        renderQuestion(currentStep, -1);
+      } else {
+        showView('view-intro');
+      }
+    }
+
+    /* ────────────────────────────────────────────
+       SCORING
+    ──────────────────────────────────────────── */
+    function computePillarScores(a) {
+      var s = { lancer: 0, exister: 0, gerer: 0, grandir: 0 };
+
+      // avancement
+      if (a.avancement === 'idee')          { s.lancer += 4; }
+      if (a.avancement === 'lance_recent')  { s.lancer += 3; s.gerer += 1; }
+      if (a.avancement === 'en_dev')        { s.exister += 1; s.gerer += 1; s.grandir += 1; }
+      if (a.avancement === 'bien_installe') { s.grandir += 2; s.exister += 1; }
+
+      // statut
+      if (a.statut === 'pas_encore') { s.lancer += 4; }
+      if (a.statut === 'micro')      { s.lancer += 1; s.gerer += 2; }
+      if (a.statut === 'societe')    { s.gerer += 2; }
+      if (a.statut === 'asso')       { s.gerer += 1; s.grandir += 1; }
+
+      // frein
+      if (a.frein === 'demarches')  { s.lancer += 3; s.gerer += 2; }
+      if (a.frein === 'visibilite') { s.exister += 4; }
+      if (a.frein === 'clients')    { s.exister += 2; s.grandir += 2; }
+      if (a.frein === 'finances')   { s.gerer += 4; }
+      if (a.frein === 'isolement')  { s.grandir += 4; }
+
+      // priorite
+      if (a.priorite === 'structurer') { s.lancer += 2; }
+      if (a.priorite === 'visibilite') { s.exister += 3; }
+      if (a.priorite === 'gestion')    { s.gerer += 3; }
+      if (a.priorite === 'reseau')     { s.grandir += 3; }
+
+      return s;
+    }
+
+    function topPillars(scores, n) {
+      return Object.keys(scores)
+        .sort(function(a, b) { return scores[b] - scores[a]; })
+        .slice(0, n || 2);
+    }
+
+    function buildSituation(a) {
+      if (a.avancement === 'idee') {
+        return "Tu es en phase d'exploration. Ton projet prend forme mais il reste encore beaucoup à clarifier — statut, offre, premiers clients. C'est une étape charnière où les bons repères font gagner beaucoup de temps.";
+      }
+      if (a.avancement === 'lance_recent') {
+        return "Tu as franchi le premier cap : ton activité est lancée. La priorité maintenant, c'est de consolider les fondations — administrative, commerciale, financière — pour ne pas avancer à tâtons.";
+      }
+      if (a.avancement === 'en_dev') {
+        return "Ton activité tourne, mais tu veux aller plus loin. Le défi n'est plus de démarrer, c'est de structurer ce qui existe pour crescendo : visibilité, organisation, réseau.";
+      }
+      return "Tu as posé des bases solides. L'enjeu maintenant c'est de capitaliser sur ce qui fonctionne, d'élargir ton réseau et de passer un cap — en termes d'impact ou de modèle.";
+    }
+
+    function buildVigilance(a) {
+      if (a.frein === 'demarches') {
+        return "Les démarches admin freinent beaucoup d'activités dès le début. L'enjeu : ne pas laisser le flou administratif bloquer des décisions importantes — statut, charges, obligations.";
+      }
+      if (a.frein === 'visibilite') {
+        return "Avoir une bonne offre ne suffit pas si personne ne la voit. Ton point de vigilance : construire une présence cohérente et continue, pas juste quelques posts isolés.";
+      }
+      if (a.frein === 'clients') {
+        return "Trouver des clients, c'est souvent une question de méthode autant que de chance. L'enjeu : clarifier ton offre, identifier les bons canaux, et passer à une démarche plus active.";
+      }
+      if (a.frein === 'finances') {
+        return "La gestion financière peut faire ou défaire une activité. Ton point de vigilance : comprendre tes charges réelles (cotisations, taxes), anticiper ta trésorerie, ne pas attendre d'être dans le rouge.";
+      }
+      if (a.frein === 'isolement') {
+        return "L'isolement est souvent sous-estimé comme frein réel. Sans réseau, sans pairs, sans retours, on prend de mauvaises décisions ou on reste bloqué plus longtemps que nécessaire.";
+      }
+      return "Quel que soit ton stade, le risque principal reste de disperser ton énergie. Un cap clair sur ce qui compte vraiment maintenant, c'est ce qui permet d'avancer sans s'épuiser.";
+    }
+
+    function buildHelps(a) {
+      var helps = [];
+
+      if (a.frein === 'demarches' || a.statut === 'pas_encore') {
+        helps.push('Clarifier ton statut juridique selon ton secteur et ta situation');
+      }
+      if (a.frein === 'finances' || a.statut === 'micro') {
+        helps.push('Comprendre tes cotisations URSSAF et anticiper tes charges');
+      }
+      if (a.frein === 'visibilite' || a.priorite === 'visibilite') {
+        helps.push('Construire une présence visible : pitch, offre, canaux adaptés à ton secteur');
+      }
+      if (a.frein === 'clients' || a.priorite === 'visibilite') {
+        helps.push('Identifier les bons canaux pour trouver tes premiers clients ou en fidéliser');
+      }
+      if (a.frein === 'isolement' || a.priorite === 'reseau') {
+        helps.push('Te connecter aux autres résidents Be-Cosmo et aux ressources collectives');
+      }
+      if (a.priorite === 'structurer' || a.avancement === 'idee') {
+        helps.push('Poser les bases solides : structure, offre, premiers repères');
+      }
+      if (a.priorite === 'gestion') {
+        helps.push('Mettre en place une gestion simple et lisible au quotidien');
+      }
+
+      // Always max 3
+      return helps.slice(0, 3);
+    }
+
+    function buildHeadline(a) {
+      var map = {
+        demarches: "Clarifier pour avancer sans freins admin.",
+        visibilite: "Rendre ton activité visible et lisible.",
+        clients: "Trouver les bons clients, pas juste du monde.",
+        finances: "Maîtriser tes finances pour avancer sereinement.",
+        isolement: "Sortir de l'isolement et activer ton réseau."
+      };
+      return map[a.frein] || "Structurer et développer ton activité.";
+    }
+
+    /* ────────────────────────────────────────────
+       PROCESS & RENDER RESULT
+    ──────────────────────────────────────────── */
+    function processDiagnosis() {
+      var a = answers;
+
+      var scores = computePillarScores(a);
+      var top = topPillars(scores, 2);
+      var situation = buildSituation(a);
+      var vigilance = buildVigilance(a);
+      var helps = buildHelps(a);
+      var headline = buildHeadline(a);
+
+      // Pillar intro text
+      var pillarNames = top.map(function(k) { return PILLARS[k].name; });
+      var pillarsIntro = 'Sur la base de tes réponses, les piliers '
+        + pillarNames.join(' et ')
+        + ' sont les plus utiles pour toi maintenant.';
+
+      // Inject
+      document.getElementById('resHeadline').textContent = headline;
+      document.getElementById('resSituation').textContent = situation;
+      document.getElementById('resVigilance').textContent = vigilance;
+
+      var listEl = document.getElementById('resHelps');
+      listEl.innerHTML = helps.map(function(h) {
+        return '<li>' + escHtml(h) + '</li>';
+      }).join('');
+
+      document.getElementById('resPillarsIntro').textContent = pillarsIntro;
+
+      // Pillar cards
+      var grid = document.getElementById('resPillarsGrid');
+      grid.innerHTML = ['lancer', 'exister', 'gerer', 'grandir'].map(function(k) {
+        var p = PILLARS[k];
+        var isActive = top.indexOf(k) !== -1;
+        return '<div class="pillar-card' + (isActive ? ' active' : '') + '">'
+          + '<p class="pillar-card-name">' + escHtml(p.name) + '</p>'
+          + '<p class="pillar-card-desc">' + escHtml(p.desc) + '</p>'
+          + '</div>';
+      }).join('');
+
+      // CTA: link to first recommended pillar
+      var resCtaEl = document.getElementById('resCtaResources');
+      if (resCtaEl && top[0]) {
+        resCtaEl.href = '/ressources?pilier=' + top[0];
+      }
+
+      // Persist
+      localStorage.setItem('orbete_v4_diag', JSON.stringify(a));
+
+      var profile = {
+        key: (a.avancement || 'projet') + '-' + (a.frein || 'general'),
+        title: buildProfileTitle(a),
+        summary: vigilance,
+        theme: a.frein || 'general',
+        themeLabel: buildThemeLabel(a),
+        offerLevel: 1,
+        offerName: 'Orbete',
+        tags: buildTags(a),
+        pillars: top,
+        lieu: a.lieu || null,
+        source: 'diagnostic'
+      };
+
+      try {
+        var existing = JSON.parse(localStorage.getItem('orbete_profile') || '{}');
+        localStorage.setItem('orbete_profile', JSON.stringify(Object.assign({}, profile, {
+          firstName: existing.firstName || profile.firstName,
+          plan: existing.plan || undefined
+        })));
+      } catch (e) {
+        localStorage.setItem('orbete_profile', JSON.stringify(profile));
+      }
+
+      showView('view-result');
+    }
+
+    function buildProfileTitle(a) {
+      var map = {
+        idee: 'Porteur·se de projet',
+        lance_recent: 'Entrepreneur·e en démarrage',
+        en_dev: 'Entrepreneur·e en développement',
+        bien_installe: 'Résident·e établi·e'
+      };
+      return map[a.avancement] || 'Résident·e Be-Cosmo';
+    }
+
+    function buildThemeLabel(a) {
+      var map = {
+        demarches: 'Démarches & structure',
+        visibilite: 'Visibilité & communication',
+        clients: 'Développement commercial',
+        finances: 'Gestion financière',
+        isolement: 'Réseau & collectif'
+      };
+      return map[a.frein] || 'Développement activité';
+    }
+
+    function buildTags(a) {
+      var tags = [];
+      if (a.avancement === 'idee' || a.avancement === 'lance_recent') tags.push('démarrage');
+      if (a.statut === 'pas_encore') tags.push('sans statut');
+      if (a.statut === 'micro') tags.push('micro-entrepreneur');
+      if (a.frein === 'demarches') tags.push('admin');
+      if (a.frein === 'visibilite') tags.push('visibilité');
+      if (a.frein === 'clients') tags.push('clients');
+      if (a.frein === 'finances') tags.push('finances');
+      if (a.frein === 'isolement') tags.push('réseau');
+      if (a.secteur === 'artisanat') tags.push('artisanat');
+      if (a.secteur === 'art') tags.push('art');
+      if (!tags.length) tags.push('activité');
+      return tags;
+    }
+
+    /* ────────────────────────────────────────────
+       UTILS
+    ──────────────────────────────────────────── */
+    function escHtml(s) {
+      return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function esc(s) {
+      return String(s).replace(/'/g, "\\'");
+    }
+
+    /* ────────────────────────────────────────────
+       INIT
+    ──────────────────────────────────────────── */
+    document.getElementById('startBtn').addEventListener('click', function() {
+      currentStep = 0;
+      answers = {};
+      showView('view-questions');
+      updateProgress(0);
+      renderQuestion(0, 0);
     });
 
-    window.pick = (btn, key, val, stepIdx) => {
-       state.answers[key] = val;
-       
-       // UI feedback
-       const stepEl = btn.closest('.diag-step-v4');
-       stepEl.querySelectorAll('.opt-v4').forEach(opt => opt.classList.remove('selected'));
-       btn.classList.add('selected');
-
-       if(stepIdx < 6) {
-          setTimeout(() => showStep(STEPS[stepIdx + 1] + '-step'), 350);
-       } else {
-          showStep('calculating-step');
-          setTimeout(processDiagnosis, 1500);
-       }
-    };
-
-    function processDiagnosis() {
-       const a = state.answers;
-       
-       const results = {
-          situation: "",
-          vigilance: "",
-          priorities: [],
-          offerType: "copilote"
-       };
-
-       // BLOC 1 : SITUATION
-       if (a.feeling === 'seul' || a.feeling === 'expose_sans_prise') {
-          results.situation = "Votre diagnostic fait apparaître une situation où la difficulté principale n’est pas seulement le sujet à traiter, mais la manière de tenir la décision dans un contexte exigeant et parfois isolé.";
-       } else if (a.feeling === 'surcharge') {
-          results.situation = "Votre situation montre une forte sollicitation qui brouille la visibilité sur les priorités réelles du projet.";
-       } else {
-          results.situation = "Votre diagnostic fait apparaître une situation de projet où la difficulté principale est de maintenir une ligne claire malgré la pression des sollicitations contradictoires.";
-       }
-
-       // BLOC 2 : VIGILANCE
-       if (a.tension === 'flou' || a.lack === 'cadre') {
-          results.vigilance = "Vous avez surtout besoin d’un cadre plus solide pour arbitrer sans laisser l’urgence ou la pression décider à votre place.";
-          results.priorities = ["Recréer du recul avant les décisions sensibles", "Clarifier ce qui relève du activité, du technique et du relationnel", "Vous appuyer sur un cadre de décision plus lisible et plus stable"];
-       } else if (a.feeling === 'seul' || a.lack === 'relais' || a.tension === 'conflit') {
-          results.vigilance = "Votre point de fragilité principal semble être le fait de devoir trop souvent tenir seul·e des décisions sensibles ou exposées.";
-          results.priorities = ["Retrouver des relais fiables sur les sujets exposés", "Sécuriser le cadrage des dossiers sensibles", "Déléguer la mise en forme pour garder la main sur le fond"];
-       } else if (a.feeling === 'surcharge' || a.lack === 'priorites' || a.tension === 'sollicitations') {
-          results.vigilance = "Votre enjeu principal n’est pas seulement de faire face aux sujets, mais de retrouver un ordre clair entre urgence, priorité et cap activité.";
-          results.priorities = ["Mieux hiérarchiser ce qui mérite une vraie décision", "Reprendre la main sur le rythme plutôt que subir l'agenda", "Clarifier votre ligne de conduite sur le semestre"];
-       } else {
-          results.vigilance = "Votre vigilance principale porte sur la manière de tenir une position juste, lisible et solide dans un contexte où la parole et le tempo comptent autant que la décision elle-même.";
-          results.priorities = ["Sécuriser la manière de porter une décision", "Mieux calibrer le tempo de vos interventions", "Tenir une position ferme sans vous crisper"];
-       }
-
-       // BLOC 4 : ORIENTATION
-       if (a.seniority === 'moins1an' || a.vigilance === 'relation' || (a.lack === 'relais' && a.feeling === 'seul')) {
-          results.offerType = "formation_irl";
-       } else if (a.role === 'interco' || a.tension === 'sollicitations' || a.vigilance === 'impact') {
-          results.offerType = "collectivite";
-       } else if (a.tension === 'conflit' || a.tension === 'duree' || a.lack === 'cadre' || a.feeling === 'soutenu_partiel') {
-          results.offerType = "individuel";
-       } else {
-          results.offerType = "copilote";
-       }
-
-       const offerContent = {
-          copilote: {
-             text: "Au vu de votre situation, un premier niveau d’appui peut déjà vous aider à clarifier vos options, prendre du recul et tester la valeur de Orbete dans votre quotidien.",
-             ctas: `<a href="/copilote" class="btn-primary-v4 big" style="background:#E1FF01; color:#0B192C;">Tester le copilote gratuit</a>
-                    <a href="/offres#avancer" class="btn-secondary-v4">Découvrir l’offre individuelle</a>
-                    <button class="btn-link-v4" style="color:#fff; margin-top:1rem; background:none; border:none; cursor:pointer;" onclick="document.getElementById('emailBox').scrollIntoView({behavior:'smooth'})">Recevoir ma synthèse</button>`
-          },
-          individuel: {
-             text: "Au vu de votre situation, l’usage le plus pertinent de Orbete semble être un appui individuel, réactif et confidentiel pour cadrer, arbitrer et tenir vos décisions dans la durée.",
-             ctas: `<a href="/offres#avancer" class="btn-primary-v4 big" style="background:#E1FF01; color:#0B192C;">Découvrir l’offre AVANCER</a>
-                    <a href="/copilote" class="btn-secondary-v4">Tester le copilote gratuit</a>
-                    <button class="btn-link-v4" style="color:#fff; margin-top:1rem; background:none; border:none; cursor:pointer;" onclick="document.getElementById('emailBox').scrollIntoView({behavior:'smooth'})">Recevoir ma synthèse</button>`
-          },
-          collectivite: {
-             text: "Au vu de votre situation, le besoin semble dépasser un usage individuel ponctuel. Orbete peut aussi être déployé comme outil partagé pour plusieurs résident·es ou pour votre collectivité.",
-             ctas: `<a href="/offres#collectivites" class="btn-primary-v4 big" style="background:#E1FF01; color:#0B192C;">Voir l’offre collectivité</a>
-                    <a href="/contact" class="btn-secondary-v4">Être rappelé</a>
-                    <button class="btn-link-v4" style="color:#fff; margin-top:1rem; background:none; border:none; cursor:pointer;" onclick="document.getElementById('emailBox').scrollIntoView({behavior:'smooth'})">Recevoir ma synthèse</button>`
-          },
-          formation_irl: {
-             text: "Au vu de votre situation, un appui présentiel ou une formation ciblée semble pouvoir vous faire gagner du temps et de la solidité plus vite qu’un simple usage autonome. Votre situation semble appeler un temps de travail plus structuré : prise de fonction, clarification des rôles ou travail d’équipe.",
-             ctas: `<a href="/methode" class="btn-primary-v4 big" style="background:#E1FF01; color:#0B192C;">Découvrir les formations</a>
-                    <a href="/contact" class="btn-secondary-v4">Être rappelé</a>
-                    <button class="btn-link-v4" style="color:#fff; margin-top:1rem; background:none; border:none; cursor:pointer;" onclick="document.getElementById('emailBox').scrollIntoView({behavior:'smooth'})">Recevoir ma synthèse</button>`
-          }
-       };
-
-       const off = offerContent[results.offerType];
-
-       // Update DOM
-       document.getElementById('resVigilanceTitle').textContent = results.vigilance.split('.')[0] + '.';
-       document.getElementById('resSituationText').textContent = results.situation;
-       document.getElementById('resVigilanceText').textContent = results.vigilance;
-       document.getElementById('resPrioritiesList').innerHTML = results.priorities.map(p => `<li>${p}</li>`).join('');
-       document.getElementById('resOfferText').textContent = off.text;
-       document.getElementById('resCTA').innerHTML = off.ctas;
-
-       // Memory persist
-       localStorage.setItem('orbete_v4_diag', JSON.stringify(a));
-
-       try {
-          const existingProfile = JSON.parse(localStorage.getItem('orbete_profile') || '{}');
-          const derivedProfile = buildOrbeteProfile(a, results);
-          const mergedProfile = {
-             ...derivedProfile,
-             firstName: existingProfile.firstName || derivedProfile.firstName,
-             commune: existingProfile.commune || derivedProfile.commune,
-             plan: existingProfile.plan || derivedProfile.plan
-          };
-          localStorage.setItem('orbete_profile', JSON.stringify(mergedProfile));
-       } catch (e) {
-          localStorage.setItem('orbete_profile', JSON.stringify(buildOrbeteProfile(a, results)));
-       }
-
-       // Toggle
-       document.getElementById('questionsContainer').classList.add('hidden');
-       document.getElementById('resultSection').classList.remove('hidden');
-       window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    window.submitEmail = () => {
-       const email = document.getElementById('emailInput').value.trim();
-       if(!email) return;
-       localStorage.setItem('user_email', email);
-       document.getElementById('emailBox').innerHTML = `<h3 style="color:#0B192C;">✓ C'est envoyé.</h3><p>Votre synthèse complète vous attend sur ${email}.</p>`;
-    };
-
-    function buildOrbeteProfile(answers, results) {
-       const roleMap = {
-          maire: { title: 'Maire', theme: 'gouvernance', themeLabel: 'Gouvernance et arbitrage' },
-          adjoint: { title: 'Adjoint·e local·e', theme: 'delegation', themeLabel: 'Délégation et mise en oeuvre' },
-          majorite: { title: 'Résident·e de majorité', theme: 'projet', themeLabel: 'Conduite du projet' },
-          opposition: { title: 'Résident·e d’opposition', theme: 'positionnement', themeLabel: 'Positionnement activité' },
-          interco: { title: 'Résident·e intercommunal·e', theme: 'coordination', themeLabel: 'Coordination territoriale' }
-       };
-
-       const role = roleMap[answers.role] || {
-          title: 'Résident·e local·e',
-          theme: 'projet',
-          themeLabel: 'Conduite du projet'
-       };
-
-       const offerNames = {
-          copilote: 'Copilote',
-          individuel: 'Offre individuelle',
-          collectivite: 'Offre collectivité',
-          formation_irl: 'Formation / Appui IRL'
-       };
-
-       const tags = [];
-       if (answers.seniority === 'moins1an') tags.push('début de projet');
-       if (answers.feeling === 'seul') tags.push('isolement');
-       if (answers.feeling === 'surcharge') tags.push('surcharge');
-       if (answers.tension === 'conflit') tags.push('tension');
-       if (answers.tension === 'exposition') tags.push('exposition');
-       if (answers.tension === 'flou') tags.push('arbitrage dans le flou');
-       if (answers.lack === 'cadre') tags.push('besoin de cadre');
-       if (answers.vigilance === 'parole') tags.push('prise de parole');
-       if (!tags.length) tags.push('projet local');
-
-       return {
-          key: `${answers.role || 'elu'}-${answers.tension || answers.feeling || 'projet'}`,
-          title: role.title,
-          summary: results.vigilance,
-          theme: role.theme,
-          themeLabel: role.themeLabel,
-          offerLevel: results.offerType === 'copilote' ? 1 : 2,
-          offerName: offerNames[results.offerType] || 'Copilote',
-          tags,
-          source: 'diagnostic'
-       };
-    }
+    document.getElementById('prevBtn').addEventListener('click', goPrev);
   </script>
+
 </BaseLayout>
