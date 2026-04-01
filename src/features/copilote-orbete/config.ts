@@ -38,6 +38,18 @@ export interface OrbeteIntentAnalysis {
   responseStyle: string;
 }
 
+export interface DiagnosticAnswers {
+  avancement?: string;
+  statut?: string;
+  secteur?: string;
+  frein?: string;
+  priorite?: string;
+  lieu?: string;
+  pillars?: string[];
+  // index signature for legacy derived-profile helpers
+  [key: string]: string | string[] | undefined;
+}
+
 export const PROFILE_STORAGE_KEY = ‘orbete_profile’;
 
 export const SUGGESTIONS = [
@@ -687,10 +699,82 @@ export function buildAgentPrimingMessage(
   ].join('\n');
 }
 
+const AVANCEMENT_LABELS: Record<string, string> = {
+  idee: 'idée en cours (pas encore lancé)',
+  lance_recent: 'lancé·e depuis moins d\'un an',
+  en_dev: 'en développement',
+  bien_installe: 'bien installé·e'
+};
+
+const SECTEUR_LABELS: Record<string, string> = {
+  artisanat: 'métier manuel / artisanat',
+  art: 'création artistique',
+  service: 'service',
+  commerce: 'commerce',
+  autre: 'autre'
+};
+
+const FREIN_LABELS: Record<string, string> = {
+  demarches: 'démarches administratives',
+  visibilite: 'visibilité et communication',
+  clients: 'trouver des clients',
+  finances: 'gestion financière',
+  isolement: 'isolement'
+};
+
+const PRIORITE_LABELS: Record<string, string> = {
+  structurer: 'structurer son activité',
+  visibilite: 'développer sa visibilité',
+  gestion: 'mieux gérer son quotidien',
+  reseau: 'agrandir son réseau'
+};
+
+const PILIER_LABELS: Record<string, string> = {
+  lancer: 'Lancer (créer sa structure, aides au démarrage)',
+  exister: 'Exister (offre, visibilité, communication)',
+  gerer: 'Gérer (admin, URSSAF, finances)',
+  grandir: 'Grandir (réseau, partenaires, développement)'
+};
+
+export function buildDiagnosticContext(answers: DiagnosticAnswers | null): string {
+  if (!answers || !Object.keys(answers).length) return '';
+
+  const lines: string[] = [
+    'Le résident que tu accompagnes a le profil suivant :'
+  ];
+
+  if (answers.secteur) {
+    lines.push(`- Secteur : ${SECTEUR_LABELS[answers.secteur] ?? answers.secteur}`);
+  }
+  if (answers.avancement) {
+    lines.push(`- Stade du projet : ${AVANCEMENT_LABELS[answers.avancement] ?? answers.avancement}`);
+  }
+  if (answers.frein) {
+    lines.push(`- Frein principal : ${FREIN_LABELS[answers.frein] ?? answers.frein}`);
+  }
+  if (answers.priorite) {
+    lines.push(`- Priorité déclarée : ${PRIORITE_LABELS[answers.priorite] ?? answers.priorite}`);
+  }
+  if (answers.pillars?.length) {
+    const pillarNames = answers.pillars
+      .map((p) => PILIER_LABELS[p] ?? p)
+      .join(', ');
+    lines.push(`- Piliers recommandés : ${pillarNames}`);
+  }
+
+  lines.push(
+    'Adapte tes réponses, tes exemples et tes suggestions à ce profil précis.',
+    'Commence par ce qui est le plus utile pour lui maintenant.'
+  );
+
+  return lines.join('\n');
+}
+
 export function buildSystemPrompt(
   profile: OrbeteProfile | null,
   mode?: string,
-  latestUserMessage = ''
+  latestUserMessage = '',
+  diagnosticAnswers: DiagnosticAnswers | null = null
 ): string {
   const profileContext = profile
     ? `Profil connu :
@@ -719,5 +803,13 @@ Tu tiens compte de ces éléments sans les réciter.`
 Règle : commence par cette scène, pas par le thème technique.`
     : '';
 
-  return `${SYSTEM_PROMPT_BASE}\n\n${profileContext}\n\n${analysisContext}\n\n${PROMPTS_BY_MODE[resolvedMode]}`;
+  const diagnosticContext = buildDiagnosticContext(diagnosticAnswers);
+
+  return [
+    SYSTEM_PROMPT_BASE,
+    diagnosticContext,
+    profileContext,
+    analysisContext,
+    PROMPTS_BY_MODE[resolvedMode]
+  ].filter(Boolean).join('\n\n');
 }

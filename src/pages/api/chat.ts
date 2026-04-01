@@ -3,6 +3,7 @@ import {
   buildAgentPrimingMessage,
   buildSystemPrompt,
   inferOrbeteSituationMode,
+  type DiagnosticAnswers,
   type OrbeteProfile,
   type OrbeteSituationMode
 } from '../../features/copilote-orbete/config';
@@ -16,6 +17,7 @@ interface CopilotMessage {
 
 interface CopilotRequestBody {
   profile?: OrbeteProfile | null;
+  diagnosticAnswers?: DiagnosticAnswers | null;
   messages?: CopilotMessage[];
   mode?: OrbeteSituationMode | string;
   message?: string;
@@ -66,6 +68,7 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   const profile = body?.profile || null;
+  const diagnosticAnswers = body?.diagnosticAnswers || null;
   const messages = Array.isArray(body?.messages) ? body.messages.filter(isCopilotMessage) : [];
   const latestUserMessage =
     typeof body?.message === 'string' && body.message.trim()
@@ -97,7 +100,7 @@ export const POST: APIRoute = async ({ request }) => {
       : [
           {
             role: 'system' as const,
-            content: buildSystemPrompt(profile, body?.mode || resolvedMode, latestUserMessage) + '\n\n' + resourcesSection
+            content: buildSystemPrompt(profile, body?.mode || resolvedMode, latestUserMessage, diagnosticAnswers) + '\n\n' + resourcesSection
           },
           ...messages
         ];

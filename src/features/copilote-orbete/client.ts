@@ -2,6 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import {
   PROFILE_STORAGE_KEY,
   inferOrbeteSituationMode,
+  type DiagnosticAnswers,
   type OrbeteProfile,
   type OrbeteSituationMode
 } from './config';
@@ -26,8 +27,6 @@ type AssistantReply = {
   plainText: string;
   resources: SuggestedResource[];
 };
-
-type DiagnosticAnswers = Record<string, string>;
 
 const root = document.querySelector<HTMLElement>('[data-orbete-copilot-root]');
 
@@ -71,7 +70,8 @@ function initCopilot(rootElement: HTMLElement) {
     isBusy: false,
     isLoggedIn: false,
     history: [] as HistoryMessage[],
-    userProfile: loadProfile()
+    userProfile: loadProfile(),
+    diagnosticAnswers: loadDiagnosticAnswers()
   };
 
   function hasUnlimitedAccess(): boolean {
@@ -154,6 +154,17 @@ function initCopilot(rootElement: HTMLElement) {
       }
 
       return derived;
+    } catch {
+      return null;
+    }
+  }
+
+  function loadDiagnosticAnswers(): DiagnosticAnswers | null {
+    try {
+      const raw = localStorage.getItem('orbete_v4_diag');
+      if (!raw) return null;
+      const parsed = JSON.parse(raw) as DiagnosticAnswers;
+      return parsed && typeof parsed === 'object' ? parsed : null;
     } catch {
       return null;
     }
@@ -362,6 +373,7 @@ function initCopilot(rootElement: HTMLElement) {
       const reply = await getAssistantReply({
         endpoint,
         profile: state.userProfile,
+        diagnosticAnswers: state.diagnosticAnswers,
         history: state.history,
         message: text,
         mode
@@ -425,12 +437,14 @@ function initCopilot(rootElement: HTMLElement) {
 async function getAssistantReply({
   endpoint,
   profile,
+  diagnosticAnswers,
   history,
   message,
   mode
 }: {
   endpoint: string;
   profile: OrbeteProfile | null;
+  diagnosticAnswers: DiagnosticAnswers | null;
   history: HistoryMessage[];
   message: string;
   mode: OrbeteSituationMode;
@@ -440,6 +454,7 @@ async function getAssistantReply({
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       profile,
+      diagnosticAnswers,
       messages: history,
       message,
       mode
