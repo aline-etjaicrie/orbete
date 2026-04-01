@@ -471,7 +471,7 @@ async function getAssistantReply({
     throw new Error(data.error || 'Le copilote ne répond pas pour le moment.');
   }
 
-  const reply = data.reply || "Je n’ai pas pu générer de réponse.";
+  const reply = data.reply || "Je n'ai pas pu générer de réponse.";
   const resources = Array.isArray(data.resources) ? data.resources.slice(0, 2) : [];
 
   return {
@@ -484,7 +484,7 @@ async function getAssistantReply({
 function formatAssistantReply(text: string, resources: SuggestedResource[] = []): string {
   const cleaned = text.replace(/\r\n/g, '\n').trim();
   if (!cleaned) {
-    return '<p>Je n’ai pas pu formuler une réponse utile pour le moment.</p>';
+    return "<p>Je n'ai pas pu formuler une réponse utile pour le moment.</p>";
   }
 
   const blocks = cleaned

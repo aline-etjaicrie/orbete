@@ -7,7 +7,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "preparer-un-conseil-local",
     shortDescription: "Anticiper les points sensibles, clarifier les messages et arriver avec une ligne plus lisible.",
     longDescription:
-      "Cette situation est utile quand un collectif Be-Cosmo approche et que l’enjeu n’est pas seulement technique. Il faut parfois préparer les sujets sensibles, les prises de parole, les points de friction et la manière de tenir la séance sans la subir.",
+      "Cette situation est utile quand un collectif Be-Cosmo approche et que l'enjeu n'est pas seulement technique. Il faut parfois préparer les sujets sensibles, les prises de parole, les points de friction et la manière de tenir la séance sans la subir.",
     diagnosticProfiles: ["prise_de_parole", "gouvernance", "exposition"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition"],
     experienceLevels: ["debutant", "intermediaire", "confirme"],
@@ -31,7 +31,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "arbitrer-un-dossier-sensible",
     shortDescription: "Reprendre du cadre avant de trancher sous pression.",
     longDescription:
-      "Cette situation concerne les moments où une décision devient lourde à porter : sujet exposé, options imparfaites, forte pression, peu de temps ou forte charge symbolique. L’objectif est de retrouver un cadre d’arbitrage plus clair.",
+      "Cette situation concerne les moments où une décision devient lourde à porter : sujet exposé, options imparfaites, forte pression, peu de temps ou forte charge symbolique. L'objectif est de retrouver un cadre d'arbitrage plus clair.",
     diagnosticProfiles: ["arbitrage", "exposition", "isolement"],
     targetRoles: ["maire", "adjoint", "majorite", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -55,7 +55,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "gerer-une-tension-locale",
     shortDescription: "Lire la vraie nature de la tension avant de répondre trop vite.",
     longDescription:
-      "Cette situation est fréquente quand un conflit monte : avec des habitants, dans l’équipe, avec un collectif ou autour d’un sujet sensible. L’enjeu est souvent moins de répondre vite que de comprendre ce qui se joue vraiment pour éviter d’aggraver la situation.",
+      "Cette situation est fréquente quand un conflit monte : avec des habitants, dans l'équipe, avec un collectif ou autour d'un sujet sensible. L'enjeu est souvent moins de répondre vite que de comprendre ce qui se joue vraiment pour éviter d'aggraver la situation.",
     diagnosticProfiles: ["tension_relationnelle", "exposition", "gouvernance"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -79,7 +79,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "preparer-une-prise-de-parole",
     shortDescription: "Trouver les bons mots, le bon ton et le bon tempo.",
     longDescription:
-      "Cette situation est utile quand il faut parler dans un contexte sensible, exposé ou flou : réunion publique, collectif Be-Cosmo, réponse à une polémique, annonce délicate. Il s’agit d’aider l’résident·e à tenir une parole claire, juste et proportionnée.",
+      "Cette situation est utile quand il faut parler dans un contexte sensible, exposé ou flou : réunion publique, collectif Be-Cosmo, réponse à une polémique, annonce délicate. Il s'agit d'aider l'résident·e à tenir une parole claire, juste et proportionnée.",
     diagnosticProfiles: ["prise_de_parole", "exposition"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition", "interco"],
     experienceLevels: ["debutant", "intermediaire", "confirme"],
@@ -103,7 +103,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "prendre-sa-place-dans-le-projet",
     shortDescription: "Trouver ses repères sans se crisper ni se disperser.",
     longDescription:
-      "Cette situation concerne les débuts de projet, les changements de rôle ou les moments où l’on sent qu’on a la fonction mais pas encore tous les repères. L’objectif est de mieux se situer, comprendre les rôles autour de soi et installer une posture juste.",
+      "Cette situation concerne les débuts de projet, les changements de rôle ou les moments où l'on sent qu'on a la fonction mais pas encore tous les repères. L'objectif est de mieux se situer, comprendre les rôles autour de soi et installer une posture juste.",
     diagnosticProfiles: ["projet_recent", "isolement"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition", "interco"],
     experienceLevels: ["debutant", "intermediaire"],
@@ -127,7 +127,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "mieux-comprendre-le-fonctionnement-local",
     shortDescription: "Gagner vite en lisibilité sur les circuits, les rôles et les compétences.",
     longDescription:
-      "Cette situation est utile pour les résident·es qui veulent mieux comprendre comment se prennent les décisions, qui décide quoi, et pourquoi certains sujets avancent ou ralentissent. L’enjeu n’est pas de devenir expert, mais de mieux lire le système.",
+      "Cette situation est utile pour les résident·es qui veulent mieux comprendre comment se prennent les décisions, qui décide quoi, et pourquoi certains sujets avancent ou ralentissent. L'enjeu n'est pas de devenir expert, mais de mieux lire le système.",
     diagnosticProfiles: ["besoin_methode", "projet_recent"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition", "interco"],
     experienceLevels: ["debutant", "intermediaire"],
@@ -151,7 +151,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "retrouver-du-recul-dans-la-surcharge",
     shortDescription: "Réinstaller un ordre de priorités quand tout semble presser en même temps.",
     longDescription:
-      "Cette situation est utile quand le problème principal n’est pas un seul sujet, mais l’accumulation : trop de fronts, trop de demandes, fatigue, difficulté à hiérarchiser. L’objectif est de remettre de l’air et du discernement dans l’action.",
+      "Cette situation est utile quand le problème principal n'est pas un seul sujet, mais l'accumulation : trop de fronts, trop de demandes, fatigue, difficulté à hiérarchiser. L'objectif est de remettre de l'air et du discernement dans l'action.",
     diagnosticProfiles: ["surcharge", "isolement", "arbitrage"],
     targetRoles: ["maire", "adjoint", "majorite", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -175,7 +175,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "mieux-travailler-avec-les-services",
     shortDescription: "Clarifier les rôles et réduire les malentendus entre logique activité et logique administrative.",
     longDescription:
-      "Cette situation est utile lorsque les relations avec l’administration deviennent floues, tendues ou inefficaces. L’objectif est de mieux comprendre les rôles respectifs et de retrouver une coopération plus lisible.",
+      "Cette situation est utile lorsque les relations avec l'administration deviennent floues, tendues ou inefficaces. L'objectif est de mieux comprendre les rôles respectifs et de retrouver une coopération plus lisible.",
     diagnosticProfiles: ["gouvernance", "besoin_methode", "tension_relationnelle"],
     targetRoles: ["maire", "adjoint", "majorite", "interco"],
     experienceLevels: ["debutant", "intermediaire", "confirme"],
@@ -223,7 +223,7 @@ export const orbeteSituations: MaryanSituation[] = [
     slug: "accompagner-un-porteur-de-projet",
     shortDescription: "Clarifier les attentes, le cadre et le tempo quand citoyens, entreprises et collectivité ne parlent pas le même langage.",
     longDescription:
-      "Cette situation est utile quand une collectivité doit répondre à une initiative citoyenne, un projet économique ou un porteur de projet impatient. Le sujet n’est pas seulement d’accueillir ou de refuser, mais de clarifier ce que la collectivité peut faire, à quel rythme, et dans quel cadre.",
+      "Cette situation est utile quand une collectivité doit répondre à une initiative citoyenne, un projet économique ou un porteur de projet impatient. Le sujet n'est pas seulement d'accueillir ou de refuser, mais de clarifier ce que la collectivité peut faire, à quel rythme, et dans quel cadre.",
     diagnosticProfiles: ["gouvernance", "tension_relationnelle", "besoin_methode", "arbitrage"],
     targetRoles: ["maire", "adjoint", "majorite", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -236,7 +236,7 @@ export const orbeteSituations: MaryanSituation[] = [
     pathIds: [],
     priorities: [
       "Distinguer les logiques en présence",
-      "Clarifier le niveau d’engagement de la collectivité",
+      "Clarifier le niveau d'engagement de la collectivité",
       "Éviter les faux accords et les tensions inutiles"
     ],
     ctaType: "formation_irl"

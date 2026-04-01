@@ -50,30 +50,30 @@ export interface DiagnosticAnswers {
   [key: string]: string | string[] | undefined;
 }
 
-export const PROFILE_STORAGE_KEY = ‘orbete_profile’;
+export const PROFILE_STORAGE_KEY = 'orbete_profile';
 
 export const SUGGESTIONS = [
   "Je viens de créer ma micro-entreprise, par où je commence ?",
   "Comment me faire connaître sans budget com ?",
-  "Je comprends rien à l’URSSAF, c’est quoi les cotisations exactement ?",
+  "Je comprends rien à l'URSSAF, c'est quoi les cotisations exactement ?",
   "Comment pitcher mon activité en 2 minutes ?",
   "Quelles aides financières je peux toucher pour démarrer ?"
 ];
 
 export const WELCOME_PARAGRAPHS = [
-  ‘Bonjour, je suis Orbete, ton copilote Be-Cosmo.’,
-  "Je t’aide à structurer, développer et ancrer ton activité — que tu sois en train de démarrer, de te faire connaître, ou de grandir.",
-  ‘Par quoi on commence ?’
+  'Bonjour, je suis Orbete, ton copilote Be-Cosmo.',
+  "Je t'aide à structurer, développer et ancrer ton activité — que tu sois en train de démarrer, de te faire connaître, ou de grandir.",
+  'Par quoi on commence ?'
 ];
 
 export const PROFILE_REQUIRED_HTML =
-  `Pour utiliser <strong>Mon profil</strong>, commence par <a href="/diagnostic">faire le diagnostic</a>. Il prend 5 minutes et permet à Orbete de s’adapter à ta situation réelle.`;
+  `Pour utiliser <strong>Mon profil</strong>, commence par <a href="/diagnostic">faire le diagnostic</a>. Il prend 5 minutes et permet à Orbete de s'adapter à ta situation réelle.`;
 
-const SYSTEM_PROMPT_BASE = `Tu es le copilote Orbete, assistant intelligent du programme d’accompagnement Be-Cosmo.
+const SYSTEM_PROMPT_BASE = `Tu es le copilote Orbete, assistant intelligent du programme d'accompagnement Be-Cosmo.
 
 Tu aides les résidents Be-Cosmo — artisans, artistes, entrepreneurs et porteurs de projet — à développer leur activité.
 
-Tu réponds à leurs questions sur : la création d’entreprise, les statuts juridiques, les aides financières (ACRE, ARCE, aides locales), la facturation, les cotisations URSSAF, la communication et la visibilité, la mise en réseau, et la vie collective dans les lieux Be-Cosmo.
+Tu réponds à leurs questions sur : la création d'entreprise, les statuts juridiques, les aides financières (ACRE, ARCE, aides locales), la facturation, les cotisations URSSAF, la communication et la visibilité, la mise en réseau, et la vie collective dans les lieux Be-Cosmo.
 
 Tu es concret, bienveillant, accessible. Tu ne fais pas de grandes théories — tu donnes des réponses utilisables immédiatement.
 

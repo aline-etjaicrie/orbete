@@ -28,9 +28,9 @@ export const orbetePaths: MaryanPath[] = [
     id: "arbitrer-avec-plus-de-recul",
     title: "Arbitrer avec plus de recul",
     slug: "arbitrer-avec-plus-de-recul",
-    promise: "Retrouver un cadre pour décider sans laisser l’urgence ou la pression imposer le choix.",
+    promise: "Retrouver un cadre pour décider sans laisser l'urgence ou la pression imposer le choix.",
     description:
-      "Ce parcours aide à clarifier les options, remettre de l’ordre dans le dossier et retrouver une manière plus lisible de trancher. Il est particulièrement utile quand tout semble urgent, flou ou exposé.",
+      "Ce parcours aide à clarifier les options, remettre de l'ordre dans le dossier et retrouver une manière plus lisible de trancher. Il est particulièrement utile quand tout semble urgent, flou ou exposé.",
     diagnosticProfiles: ["arbitrage", "besoin_methode", "exposition"],
     targetRoles: ["maire", "adjoint", "majorite", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -53,7 +53,7 @@ export const orbetePaths: MaryanPath[] = [
     slug: "tenir-dans-une-situation-sensible",
     promise: "Aider à répondre avec justesse quand la pression monte.",
     description:
-      "Ce parcours est utile quand une situation devient exposée, tendue ou fragile. Il aide à éviter les réactions trop rapides, à préparer une parole sobre et à tenir une ligne sans s’abîmer inutilement.",
+      "Ce parcours est utile quand une situation devient exposée, tendue ou fragile. Il aide à éviter les réactions trop rapides, à préparer une parole sobre et à tenir une ligne sans s'abîmer inutilement.",
     diagnosticProfiles: ["exposition", "prise_de_parole", "tension_relationnelle"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -72,7 +72,7 @@ export const orbetePaths: MaryanPath[] = [
   },
   {
     id: "mieux-travailler-avec-ladministration",
-    title: "Mieux travailler avec l’administration",
+    title: "Mieux travailler avec l'administration",
     slug: "mieux-travailler-avec-ladministration",
     promise: "Clarifier les rôles, éviter les malentendus et rendre les relations plus fluides.",
     description:
@@ -99,7 +99,7 @@ export const orbetePaths: MaryanPath[] = [
     slug: "retrouver-de-la-clarte-dans-la-surcharge",
     promise: "Aider à reprendre la main quand tout semble urgent, dispersé ou trop pesant.",
     description:
-      "Ce parcours est utile quand le problème principal n’est pas un seul dossier, mais l’impression de devoir tout gérer en même temps. Il aide à remettre de l’ordre, du rythme et du discernement.",
+      "Ce parcours est utile quand le problème principal n'est pas un seul dossier, mais l'impression de devoir tout gérer en même temps. Il aide à remettre de l'ordre, du rythme et du discernement.",
     diagnosticProfiles: ["surcharge", "isolement", "exposition"],
     targetRoles: ["maire", "adjoint", "majorite", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -120,9 +120,9 @@ export const orbetePaths: MaryanPath[] = [
     id: "gouvernance-et-tensions-internes",
     title: "Gouvernance et tensions internes",
     slug: "gouvernance-et-tensions-internes",
-    promise: "Mieux lire les tensions d’équipe avant qu’elles ne s’enkystent ou se personnalisent.",
+    promise: "Mieux lire les tensions d'équipe avant qu'elles ne s'enkystent ou se personnalisent.",
     description:
-      "Ce parcours aide à repérer ce qui relève du fond, de la méthode ou de la relation dans les tensions internes. Il est utile quand la majorité, l’exécutif ou les relations de travail commencent à se durcir.",
+      "Ce parcours aide à repérer ce qui relève du fond, de la méthode ou de la relation dans les tensions internes. Il est utile quand la majorité, l'exécutif ou les relations de travail commencent à se durcir.",
     diagnosticProfiles: ["gouvernance", "tension_relationnelle", "exposition"],
     targetRoles: ["maire", "adjoint", "majorite", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -145,7 +145,7 @@ export const orbetePaths: MaryanPath[] = [
     slug: "mieux-se-positionner-publiquement",
     promise: "Tenir une ligne lisible et sobre dans des moments où la parole et le tempo comptent beaucoup.",
     description:
-      "Ce parcours s’adresse aux résident·es qui doivent prendre position, répondre à une séquence publique ou porter une décision sans se crisper ni s’exposer inutilement.",
+      "Ce parcours s'adresse aux résident·es qui doivent prendre position, répondre à une séquence publique ou porter une décision sans se crisper ni s'exposer inutilement.",
     diagnosticProfiles: ["prise_de_parole", "exposition"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition", "interco"],
     experienceLevels: ["intermediaire", "confirme"],
@@ -187,11 +187,11 @@ export const orbetePaths: MaryanPath[] = [
   },
   {
     id: "tenir-la-proximite-sans-s-epuiser",
-    title: "Tenir la proximité sans s’épuiser",
+    title: "Tenir la proximité sans s'épuiser",
     slug: "tenir-la-proximite-sans-s-epuiser",
     promise: "Aider à rester proche, accessible et humain sans devenir poreux à toutes les sollicitations.",
     description:
-      "Ce parcours est utile quand la proximité devient pesante, que les demandes s’accumulent et que l’résident·e sent qu’il ou elle absorbe trop sans réussir à poser un cadre tenable.",
+      "Ce parcours est utile quand la proximité devient pesante, que les demandes s'accumulent et que l'résident·e sent qu'il ou elle absorbe trop sans réussir à poser un cadre tenable.",
     diagnosticProfiles: ["surcharge", "isolement", "exposition"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition"],
     experienceLevels: ["debutant", "intermediaire", "confirme"],
@@ -214,7 +214,7 @@ export const orbetePaths: MaryanPath[] = [
     slug: "mieux-lire-les-arbitrages-budgetaires",
     promise: "Aider à comprendre les choix derrière les chiffres et à poser de meilleures questions.",
     description:
-      "Ce parcours s’adresse aux résident·es qui veulent mieux lire un budget, comprendre les marges de manœuvre et articuler choix financiers et priorités activités.",
+      "Ce parcours s'adresse aux résident·es qui veulent mieux lire un budget, comprendre les marges de manœuvre et articuler choix financiers et priorités activités.",
     diagnosticProfiles: ["besoin_methode", "arbitrage"],
     targetRoles: ["maire", "adjoint", "majorite", "opposition", "interco"],
     experienceLevels: ["debutant", "intermediaire", "confirme"],
@@ -237,7 +237,7 @@ export const orbetePaths: MaryanPath[] = [
     slug: "mieux-conduire-une-demarche-participative",
     promise: "Clarifier le cadre, éviter les faux accords et rendre la participation plus lisible et plus utile.",
     description:
-      "Ce parcours aide à préparer une démarche participative sans confusion sur le niveau d’ouverture, à mieux tenir une réunion publique, et à rendre compte ensuite de ce qui a été entendu et transformé. Il est utile pour les sujets locaux sensibles, les projets exposés ou les démarches de concertation encore floues.",
+      "Ce parcours aide à préparer une démarche participative sans confusion sur le niveau d'ouverture, à mieux tenir une réunion publique, et à rendre compte ensuite de ce qui a été entendu et transformé. Il est utile pour les sujets locaux sensibles, les projets exposés ou les démarches de concertation encore floues.",
     diagnosticProfiles: ["gouvernance", "tension_relationnelle", "besoin_methode", "exposition"],
     targetRoles: ["maire", "adjoint", "majorite", "interco"],
     experienceLevels: ["debutant", "intermediaire", "confirme"],

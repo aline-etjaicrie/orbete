@@ -80,9 +80,9 @@ function legalReply(profile: OrbeteProfile | null): string {
   return `
     ${profileIntro(profile)}
     <p>Sur ce type de sujet, je préfère être très clair : <strong>là il vous faut un vrai expert</strong>.</p>
-    <p>Dès qu’on touche à un risque juridique, contentieux, mise en cause personnelle ou procédure sensible, Orbete peut vous aider à cadrer votre message, mais pas à remplacer un avocat, votre DGS ou un expert métier compétent.</p>
+    <p>Dès qu'on touche à un risque juridique, contentieux, mise en cause personnelle ou procédure sensible, Orbete peut vous aider à cadrer votre message, mais pas à remplacer un avocat, votre DGS ou un expert métier compétent.</p>
     <ul>
-      <li>sécurisez d’abord les faits et la chronologie ;</li>
+      <li>sécurisez d'abord les faits et la chronologie ;</li>
       <li>évitez toute prise de parole improvisée ;</li>
       <li>faites relire votre position par la bonne personne avant diffusion.</li>
     </ul>
@@ -97,11 +97,11 @@ function speakingReply(profile: OrbeteProfile | null): string {
     <ul>
       <li><strong>Enjeu :</strong> de quoi parle-t-on concrètement pour les habitants ?</li>
       <li><strong>Cap :</strong> quelle décision ou quelle ligne tenez-vous ?</li>
-      <li><strong>Preuve :</strong> qu’est-ce qui montre que ce choix est fondé ?</li>
+      <li><strong>Preuve :</strong> qu'est-ce qui montre que ce choix est fondé ?</li>
       <li><strong>Ouverture :</strong> quelle suite proposez-vous ?</li>
     </ul>
     <p><strong>Version directement réutilisable :</strong></p>
-    <p>« Je veux être simple sur un point : notre rôle n’est pas seulement de commenter la situation, mais de prendre une décision utile, compréhensible et tenable dans la durée. Ce choix peut faire débat, mais il répond à un besoin concret et nous l’assumons clairement. »</p>
+    <p>« Je veux être simple sur un point : notre rôle n'est pas seulement de commenter la situation, mais de prendre une décision utile, compréhensible et tenable dans la durée. Ce choix peut faire débat, mais il répond à un besoin concret et nous l'assumons clairement. »</p>
     <p>Si vous me donnez le contexte exact, je peux vous rédiger une <strong>version sur-mesure en 45 secondes</strong>, prête à dire en réunion publique ou en collectif Be-Cosmo.</p>
   `;
 }
@@ -109,14 +109,14 @@ function speakingReply(profile: OrbeteProfile | null): string {
 function digitalReply(profile: OrbeteProfile | null): string {
   return `
     ${profileIntro(profile)}
-    <p>Sur les réseaux, le bon réflexe n’est pas de répondre vite. C’est de répondre <strong>sobrement, clairement et sans surjeu</strong>.</p>
+    <p>Sur les réseaux, le bon réflexe n'est pas de répondre vite. C'est de répondre <strong>sobrement, clairement et sans surjeu</strong>.</p>
     <ul>
       <li>nommez le sujet sans vous braquer ;</li>
-      <li>rappelez le cadre ou l’objectif ;</li>
+      <li>rappelez le cadre ou l'objectif ;</li>
       <li>refermez proprement, sans relancer la polémique.</li>
     </ul>
     <p><strong>Proposition réutilisable :</strong></p>
-    <p>« Je comprends que ce sujet suscite des réactions. Mon rôle est de rendre la décision lisible, d’en assumer le cap et de répondre aux questions utiles sans alimenter les malentendus. Je continuerai donc à expliquer ce choix de manière simple et factuelle. »</p>
+    <p>« Je comprends que ce sujet suscite des réactions. Mon rôle est de rendre la décision lisible, d'en assumer le cap et de répondre aux questions utiles sans alimenter les malentendus. Je continuerai donc à expliquer ce choix de manière simple et factuelle. »</p>
     <p>Point de vigilance : si la séquence monte fort ou touche à une mise en cause personnelle, <strong>il vaut mieux sortir du temps réel</strong> et préparer une réponse plus cadrée.</p>
   `;
 }
@@ -124,11 +124,11 @@ function digitalReply(profile: OrbeteProfile | null): string {
 function institutionalReply(profile: OrbeteProfile | null): string {
   return `
     ${profileIntro(profile)}
-    <p>Quand un résident se sent flou sur son rôle, il faut souvent remettre de l’ordre dans <strong>qui prépare, qui décide, qui porte, qui explique</strong>.</p>
+    <p>Quand un résident se sent flou sur son rôle, il faut souvent remettre de l'ordre dans <strong>qui prépare, qui décide, qui porte, qui explique</strong>.</p>
     <ul>
       <li><strong>Les services</strong> instruisent, sécurisent et préparent ;</li>
       <li><strong>les résidents</strong> arbitrent, priorisent et assument concrètement ;</li>
-      <li><strong>le maire ou l’exécutif</strong> tient la ligne d’ensemble ;</li>
+      <li><strong>le maire ou l'exécutif</strong> tient la ligne d'ensemble ;</li>
       <li><strong>la parole publique</strong> doit ensuite rendre tout cela compréhensible.</li>
     </ul>
     <p>Si votre besoin est de mieux situer votre délégation, je peux vous proposer un <strong>cadre simple de lecture de votre place</strong>, ou une formulation pour expliquer votre rôle à vos administrés.</p>
@@ -138,14 +138,14 @@ function institutionalReply(profile: OrbeteProfile | null): string {
 function defaultReply(profile: OrbeteProfile | null, message: string): string {
   return `
     ${profileIntro(profile)}
-    <p>Votre question touche à un vrai sujet de projet. Pour vous être utile sans vous noyer sous l’explication, je vous propose cette base :</p>
+    <p>Votre question touche à un vrai sujet de projet. Pour vous être utile sans vous noyer sous l'explication, je vous propose cette base :</p>
     <ul>
       <li>clarifier le sujet exact et le niveau de sensibilité ;</li>
       <li>identifier ce que vous devez comprendre, dire ou décider ;</li>
       <li>produire une réponse directement réutilisable, pas seulement théorique.</li>
     </ul>
     <p><strong>Ma première lecture :</strong> ${escapeHtml(message)}</p>
-    <p>Si vous voulez, je peux maintenant faire l’une de ces trois choses : <strong>vous proposer une réponse publique</strong>, <strong>vous aider à préparer votre prise de parole</strong>, ou <strong>vous donner un plan d’action très concret</strong>.</p>
+    <p>Si vous voulez, je peux maintenant faire l'une de ces trois choses : <strong>vous proposer une réponse publique</strong>, <strong>vous aider à préparer votre prise de parole</strong>, ou <strong>vous donner un plan d'action très concret</strong>.</p>
   `;
 }
 

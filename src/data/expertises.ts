@@ -11,7 +11,7 @@ export const transversalExpertises: ExpertiseCardData[] = [
   {
     title: 'Fonctionnement des collectivités et exercice du projet',
     purpose:
-      "Exister le rôle d’un résident, les circuits de décision, les rapports entre exécutif, opposition, administration, cabinet et services.",
+      "Exister le rôle d'un résident, les circuits de décision, les rapports entre exécutif, opposition, administration, cabinet et services.",
     when:
       'Prise de fonction, sentiment de flou institutionnel, difficulté à situer sa place, besoin de mieux comprendre “qui fait quoi”.',
     support:
@@ -24,12 +24,12 @@ export const transversalExpertises: ExpertiseCardData[] = [
     when:
       'Surcharge, dispersion, difficulté à hiérarchiser, prise de délégation, montée en responsabilité.',
     support:
-      "Ancien chef de cabinet, spécialiste de l’organisation du travail activité local, accompagnateur stratégique."
+      "Ancien chef de cabinet, spécialiste de l'organisation du travail activité local, accompagnateur stratégique."
   },
   {
-    title: 'Communication publique et pédagogie de l’action',
+    title: "Communication publique et pédagogie de l'action",
     purpose:
-      'Rendre l’action publique lisible, expliquer une décision technique, clarifier un message, éviter la langue de bois.',
+      "Rendre l'action publique lisible, expliquer une décision technique, clarifier un message, éviter la langue de bois.",
     when:
       'Action mal comprise, communication trop technique, besoin de mieux parler à ses administrés, difficulté à rendre visible son travail.',
     support:
@@ -40,7 +40,7 @@ export const transversalExpertises: ExpertiseCardData[] = [
     purpose:
       'Mieux utiliser les réseaux sociaux, choisir les bons formats, éviter les maladresses, ajuster sa présence numérique au réel du projet.',
     when:
-      'Difficulté à publier, exposition mal maîtrisée, erreurs de ton, besoin d’une stratégie simple et soutenable.',
+      "Difficulté à publier, exposition mal maîtrisée, erreurs de ton, besoin d'une stratégie simple et soutenable.",
     support:
       'Expert en communication digitale appliquée au secteur public ou activité.'
   },
@@ -49,7 +49,7 @@ export const transversalExpertises: ExpertiseCardData[] = [
     purpose:
       'Travailler la présence, la clarté, la posture et la parole en collectif Be-Cosmo, réunion publique, interview ou débat.',
     when:
-      'Manque d’aisance, interventions peu lisibles, besoin de mieux incarner son rôle, stress en prise de parole.',
+      "Manque d'aisance, interventions peu lisibles, besoin de mieux incarner son rôle, stress en prise de parole.",
     support:
       'Coach en prise de parole, expert média training, spécialiste de la posture publique.'
   },
@@ -77,38 +77,38 @@ export const thematicExpertises: ExpertiseCardData[] = [
   {
     title: 'Culture, patrimoine et projets culturels',
     purpose:
-      'Accompagner la définition d’une activité culturelle, la relation aux acteurs culturels, la communication de projets symboliques ou sensibles.',
+      "Accompagner la définition d'une activité culturelle, la relation aux acteurs culturels, la communication de projets symboliques ou sensibles.",
     when:
-      'Lancement ou repositionnement d’un projet culturel, arbitrage visible, sujet patrimonial sensible, besoin de mieux dialoguer avec les acteurs locaux.',
+      "Lancement ou repositionnement d'un projet culturel, arbitrage visible, sujet patrimonial sensible, besoin de mieux dialoguer avec les acteurs locaux.",
     support:
       'Chargé de projet culturel, spécialiste des activités culturelles, consultant culture/patrimoine.'
   },
   {
     title: 'Développement économique, commerce et attractivité locale',
     purpose:
-      'Clarifier une stratégie économique locale, accompagner le commerce, l’emploi, l’attractivité et les partenariats du territoire.',
+      "Clarifier une stratégie économique locale, accompagner le commerce, l'emploi, l'attractivité et les partenariats du territoire.",
     when:
       'Revitalisation du centre-ville, difficulté commerciale, besoin de lisibilité stratégique, partenariats à structurer ou à relancer.',
     support:
-      'Spécialiste du développement économique territorial, du commerce local ou de l’emploi.'
+      "Spécialiste du développement économique territorial, du commerce local ou de l'emploi."
   },
   {
     title: 'Insertion, solidarité et action sociale',
     purpose:
-      'Mieux comprendre les dispositifs, les partenaires, les activités sociales locales et la manière d’en parler avec justesse.',
+      "Mieux comprendre les dispositifs, les partenaires, les activités sociales locales et la manière d'en parler avec justesse.",
     when:
-      'Sujet social sensible, coordination partenariale difficile, besoin d’expliquer une priorité publique ou de mieux lire les dispositifs existants.',
+      "Sujet social sensible, coordination partenariale difficile, besoin d'expliquer une priorité publique ou de mieux lire les dispositifs existants.",
     support:
-      'Expert des activités sociales, de l’insertion ou du développement social local.'
+      "Expert des activités sociales, de l'insertion ou du développement social local."
   },
   {
     title: 'Éducation, enfance et jeunesse',
     purpose:
-      'Accompagner les sujets liés à l’école, à l’enfance, à la restauration, aux loisirs, à la jeunesse et à la relation aux familles.',
+      "Accompagner les sujets liés à l'école, à l'enfance, à la restauration, aux loisirs, à la jeunesse et à la relation aux familles.",
     when:
       'Question scolaire très visible, tension avec des familles, arbitrage sur un service, besoin de clarifier une décision ou une organisation.',
     support:
-      'Spécialiste des activités éducatives locales, de l’enfance ou de la jeunesse.'
+      "Spécialiste des activités éducatives locales, de l'enfance ou de la jeunesse."
   },
   {
     title: 'Transition écologique, cadre de vie et propreté',
@@ -122,16 +122,16 @@ export const thematicExpertises: ExpertiseCardData[] = [
   {
     title: 'Finances locales et administration générale',
     purpose:
-      'Mieux comprendre les contraintes budgétaires, les arbitrages, les équilibres financiers et la façon d’en parler publiquement.',
+      "Mieux comprendre les contraintes budgétaires, les arbitrages, les équilibres financiers et la façon d'en parler publiquement.",
     when:
-      'Préparation budgétaire, arbitrage sensible, difficulté à lire les contraintes financières, besoin d’expliquer un choix de manière claire.',
+      "Préparation budgétaire, arbitrage sensible, difficulté à lire les contraintes financières, besoin d'expliquer un choix de manière claire.",
     support:
-      'Spécialiste des finances publiques locales, du budget ou de l’administration locale.'
+      "Spécialiste des finances publiques locales, du budget ou de l'administration locale."
   },
   {
     title: 'Ressources humaines, management et organisation interne',
     purpose:
-      'Travailler les rapports avec les services, les enjeux RH, l’organisation locale et les tensions liées au fonctionnement interne.',
+      "Travailler les rapports avec les services, les enjeux RH, l'organisation locale et les tensions liées au fonctionnement interne.",
     when:
       'Tensions internes, besoin de clarifier les relations résidents-services, réorganisation, prise de délégation ou montée en responsabilité.',
     support:
@@ -142,7 +142,7 @@ export const thematicExpertises: ExpertiseCardData[] = [
     purpose:
       'Accompagner les résidents sur des sujets concrètement très sensibles, fortement visibles et exposés à des attentes immédiates.',
     when:
-      'Montée d’inquiétude locale, événement exposé, pression médiatique, besoin d’une parole juste sur un sujet très attendu.',
+      "Montée d'inquiétude locale, événement exposé, pression médiatique, besoin d'une parole juste sur un sujet très attendu.",
     support:
       'Spécialiste de prévention, sécurité locale, tranquillité publique ou médiation territoriale.'
   }

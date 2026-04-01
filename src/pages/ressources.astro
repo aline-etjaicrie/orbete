@@ -119,7 +119,7 @@ const copilotSuggestions = [
             <span class="label-v3">Personnalisation</span>
             <h2>Commencez par le diagnostic pour orienter vos premières lectures</h2>
             <p>
-              Orbete peut faire remonter les ressources, parcours et situations les plus utiles pour vous. Mais vous restez libre d’explorer tout le reste.
+              Orbete peut faire remonter les ressources, parcours et situations les plus utiles pour vous. Mais vous restez libre d'explorer tout le reste.
             </p>
           </div>
 
@@ -137,7 +137,7 @@ const copilotSuggestions = [
           <span class="label-v3">Pour vous, en priorité</span>
           <h2 class="section-title-standard">Vos priorités du moment</h2>
           <p class="section-subtitle-v4">
-            Trois points d’appui pour avancer sans vous disperser.
+            Trois points d'appui pour avancer sans vous disperser.
           </p>
         </header>
 
@@ -155,7 +155,7 @@ const copilotSuggestions = [
         <header class="section-header-v4">
           <span class="label-v3">Sélectionnées à partir de votre diagnostic</span>
           <h2 class="section-title-standard">À commencer par là</h2>
-          <p class="section-subtitle-v4">Trois ressources choisies pour entrer dans le sujet avec méthode, sans vous perdre dans l’ensemble.</p>
+          <p class="section-subtitle-v4">Trois ressources choisies pour entrer dans le sujet avec méthode, sans vous perdre dans l'ensemble.</p>
         </header>
 
         <div id="recommendedGrid" class="rec-v4-grid"></div>
@@ -201,7 +201,7 @@ const copilotSuggestions = [
           <span class="label-v3">Explorer</span>
           <h2 class="section-title-standard">Explorer les ressources</h2>
           <p class="section-subtitle-v4">
-            Votre profil vous oriente, mais il ne vous enferme pas. Toutes les ressources restent ouvertes à l’exploration.
+            Votre profil vous oriente, mais il ne vous enferme pas. Toutes les ressources restent ouvertes à l'exploration.
           </p>
         </header>
 
@@ -261,7 +261,7 @@ const copilotSuggestions = [
           <button type="button" class="btn-secondary-v3" id="toggleCatalogBtn">Voir plus de ressources</button>
         </div>
         <div id="emptyState" class="empty-state hidden">
-          <p>Aucune ressource ne correspond à cette combinaison de filtres pour l’instant.</p>
+          <p>Aucune ressource ne correspond à cette combinaison de filtres pour l'instant.</p>
           <button type="button" class="btn-secondary-v3" id="resetFiltersBtn">Réinitialiser les filtres</button>
         </div>
       </div>
@@ -273,7 +273,7 @@ const copilotSuggestions = [
           <span class="label-v3">Cas concrets</span>
           <h2 class="section-title-standard">Situations fréquentes</h2>
           <p class="section-subtitle-v4">
-            Entrer par un cas concret, quand vous cherchez moins un thème qu’une situation à traverser.
+            Entrer par un cas concret, quand vous cherchez moins un thème qu'une situation à traverser.
           </p>
         </header>
 
@@ -322,8 +322,8 @@ const copilotSuggestions = [
         <div class="subtle-support-card">
           <div class="subtle-support-copy">
             <span class="label-v3">Aller plus loin</span>
-            <h3>Selon votre situation, Orbete peut aussi vous orienter vers le bon niveau d’appui.</h3>
-            <p>Copilote, accompagnement individuel, offre collectivité ou formation ciblée : l’idée reste la même, vous proposer l’appui juste.</p>
+            <h3>Selon votre situation, Orbete peut aussi vous orienter vers le bon niveau d'appui.</h3>
+            <p>Copilote, accompagnement individuel, offre collectivité ou formation ciblée : l'idée reste la même, vous proposer l'appui juste.</p>
           </div>
 
           <div class="subtle-support-actions">
@@ -375,16 +375,16 @@ const copilotSuggestions = [
       arbitrage: [
         'retrouver du recul avant les décisions sensibles',
         'clarifier ce qui mérite un vrai arbitrage',
-        'éviter que l’urgence décide à votre place'
+        'éviter que l'urgence décide à votre place'
       ],
       isolement: [
         'sortir du sentiment de devoir tout porter seul·e',
         'retrouver des repères stables pour le projet',
-        'remettre de la clarté dans votre manière d’agir'
+        'remettre de la clarté dans votre manière d'agir'
       ],
       surcharge: [
         'reprendre la main sur ce qui mérite vraiment votre énergie',
-        'retrouver un ordre d’action plus lisible',
+        'retrouver un ordre d'action plus lisible',
         'ne pas laisser toutes les urgences se valoir'
       ],
       exposition: [
@@ -398,7 +398,7 @@ const copilotSuggestions = [
         'retrouver du cadre pour agir sans sur-réagir'
       ],
       besoin_methode: [
-        'clarifier les étapes avant d’entrer dans la complexité',
+        'clarifier les étapes avant d'entrer dans la complexité',
         'retrouver une méthode simple pour cadrer les sujets',
         'mieux distinguer compréhension, décision et mise en œuvre'
       ],
@@ -522,8 +522,8 @@ const copilotSuggestions = [
 
       const overrides = {
         projet_citoyen: 'projet citoyen',
-        projet_entreprise: "projet d’entreprise",
-        collectif_habitants: "collectif d’habitants",
+        projet_entreprise: "projet d'entreprise",
+        collectif_habitants: "collectif d'habitants",
         initiative_locale: 'initiative locale',
         relation_partenaire: 'relation partenaire',
         co_construction: 'co-construction',
@@ -557,7 +557,7 @@ const copilotSuggestions = [
       const normalized = normalizeText(priority);
 
       if (normalized.includes('dispersion')) {
-        return 'Remettre de l’ordre dans ce qui mérite vraiment votre attention, sans courir après tous les fronts à la fois.';
+        return 'Remettre de l'ordre dans ce qui mérite vraiment votre attention, sans courir après tous les fronts à la fois.';
       }
 
       if (normalized.includes('recul')) {
@@ -565,26 +565,26 @@ const copilotSuggestions = [
       }
 
       if (normalized.includes('priorit')) {
-        return 'Distinguer ce qui demande un vrai arbitrage, ce qui peut attendre, et ce qui n’a pas à peser autant.';
+        return 'Distinguer ce qui demande un vrai arbitrage, ce qui peut attendre, et ce qui n'a pas à peser autant.';
       }
 
       if (normalized.includes('repere') || normalized.includes('place')) {
-        return 'Retrouver un cadre simple pour mieux comprendre votre rôle, votre marge d’action et vos points d’appui.';
+        return 'Retrouver un cadre simple pour mieux comprendre votre rôle, votre marge d'action et vos points d'appui.';
       }
 
       if (normalized.includes('parole')) {
-        return 'Clarifier ce qui doit être dit, à quel moment, et avec quel niveau d’exposition.';
+        return 'Clarifier ce qui doit être dit, à quel moment, et avec quel niveau d'exposition.';
       }
 
       if (normalized.includes('tension') || normalized.includes('conflit')) {
-        return 'Lire ce qui se joue vraiment avant de réagir, pour éviter d’aggraver une situation déjà sensible.';
+        return 'Lire ce qui se joue vraiment avant de réagir, pour éviter d'aggraver une situation déjà sensible.';
       }
 
       if (normalized.includes('methode') || normalized.includes('cadre')) {
-        return 'Retrouver une méthode stable pour cadrer les sujets avant qu’ils ne deviennent trop diffus.';
+        return 'Retrouver une méthode stable pour cadrer les sujets avant qu'ils ne deviennent trop diffus.';
       }
 
-      return 'Un premier point d’appui pour avancer avec plus de clarté, sans vous disperser inutilement.';
+      return 'Un premier point d'appui pour avancer avec plus de clarté, sans vous disperser inutilement.';
     }
 
     function renderPersonalizedContent() {

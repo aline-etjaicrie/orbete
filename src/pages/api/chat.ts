@@ -120,7 +120,7 @@ export const POST: APIRoute = async ({ request }) => {
         };
 
     const firstPass = await requestCompletion(url, apiKey, basePayload);
-    let reply = firstPass.reply || 'Je n’ai pas pu générer de réponse utile pour le moment.';
+    let reply = firstPass.reply || "Je n'ai pas pu générer de réponse utile pour le moment.";
 
     if (shouldContinueReply(reply, firstPass.finishReason)) {
       const continuationPayload = isAgentMode
@@ -184,7 +184,7 @@ async function requestCompletion(
   const data = (await upstream.json().catch(() => ({}))) as Record<string, any>;
 
   if (!upstream.ok) {
-    const apiError = data?.message || data?.error?.message || 'Le moteur Mistral n’a pas pu répondre.';
+    const apiError = data?.message || data?.error?.message || "Le moteur Mistral n'a pas pu répondre.";
     const error = new Error(apiError);
     (error as Error & { status?: number }).status = upstream.status;
     throw error;
@@ -278,11 +278,13 @@ function mergeReplyParts(initialReply: string, continuationReply: string): strin
 // Maps situation modes to likely diagnostic profiles for scoring boost
 const MODE_TO_DIAGNOSTIC: Partial<Record<OrbeteSituationMode, DiagnosticProfile[]>> = {
   prise_de_reperes: ['projet_recent'],
-  reprise_de_recul: ['surcharge'],
-  arbitrage_cadrage: ['arbitrage'],
-  lecture_de_tension: ['tension_relationnelle', 'isolement'],
-  parole_exposition: ['exposition', 'prise_de_parole'],
-  explication_pedagogique: ['besoin_methode', 'gouvernance']
+  soutien_reassurance: ['projet_recent', 'isolement_reseau'],
+  reprise_de_recul: ['croissance'],
+  arbitrage_cadrage: ['gestion_financiere', 'croissance'],
+  lecture_de_tension: ['isolement_reseau'],
+  parole_exposition: ['visibilite_com', 'recherche_clients'],
+  explication_pedagogique: ['demarches_admin'],
+  cadre_relation_projet: ['projet_recent']
 };
 
 function getSuggestedResources(
